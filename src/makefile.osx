@@ -1,0 +1,241 @@
+# -*- mode: Makefile; -*-
+# Copyright (c) 2011 Abcmint Developers
+# Distributed under the MIT/X11 software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+# Mac OS X makefile for raqcoin
+# Originally by Laszlo Hanyecz (solar@heliacal.net)
+
+CXX=clang++
+DEPSDIR=/opt/homebrew
+LIBDIR=/opt/homebrew/opt
+
+INCLUDEPATHS= \
+ -I"$(CURDIR)" \
+ -I"$(CURDIR)"/obj \
+ -I"$(DEPSDIR)/include" \
+ -I"$(LIBDIR)/openssl@3/include" \
+ -I"$(LIBDIR)/berkeley-db@5/include" \
+ -I"$(LIBDIR)/boost/include" 
+LIBPATHS= \
+ -L"$(DEPSDIR)/lib" \
+ -L"$(LIBDIR)/openssl@3/lib" \
+ -L"$(LIBDIR)/berkeley-db@5/lib" \
+ -L"$(LIBDIR)/boost/lib" 
+
+
+USE_UPNP:=1
+USE_IPV6:=1
+
+LIBS= -dead_strip
+STATIC = 1
+
+TESTDEFS = -DTEST_DATA_DIR=$(abspath test/data)
+ifdef STATIC
+# Build STATIC if you are redistributing the raqcoin binary
+TESTLIBS += \
+ $(LIBDIR)/boost/lib/libboost_unit_test_framework.a
+# Note: boost_system is header-only since Boost 1.69, no need to link
+# Note: Berkeley DB 5 on Homebrew only provides dynamic libs
+LIBS += \
+ $(LIBDIR)/boost/lib/libboost_filesystem.a \
+ $(LIBDIR)/boost/lib/libboost_program_options.a \
+ $(LIBDIR)/boost/lib/libboost_thread.a \
+ $(LIBDIR)/boost/lib/libboost_chrono.a \
+ $(LIBDIR)/openssl@3/lib/libssl.a \
+ $(LIBDIR)/openssl@3/lib/libcrypto.a \
+ -ldb_cxx \
+ -lz \
+ $(CURDIR)/rainbow18/librainbowpro_unix_arm64.a
+else
+TESTLIBS += \
+ -lboost_unit_test_framework
+LIBS += \
+ -ldb_cxx \
+ -lboost_system \
+ -lboost_filesystem \
+ -lboost_program_options \
+ -lboost_thread \
+ -lboost_chrono \
+ -lssl \
+ -lcrypto \
+ -lz
+TESTDEFS += -DBOOST_TEST_DYN_LINK
+endif
+
+DEFS=-DMAC_OSX -DMSG_NOSIGNAL=0 -DBOOST_SPIRIT_THREADSAFE
+
+ifdef RELEASE
+# Compile for maximum compatibility and smallest size.
+# This requires that dependencies are compiled
+# the same way.
+CFLAGS = -mmacosx-version-min=10.5 -arch i386 -O3
+else
+DEBUGFLAGS = -g
+endif
+
+# ppc doesn't work because we don't support big-endian
+CFLAGS += -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter \
+    $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATHS) -fno-stack-protector
+
+OBJS= \
+    leveldb/libleveldb.a \
+    pqcrypto/libpqcrypto.a \
+    obj/alert.o \
+    obj/version.o \
+    obj/checkpoints.o \
+    obj/netbase.o \
+    obj/addrman.o \
+    obj/crypter.o \
+    obj/key.o \
+    obj/db.o \
+    obj/init.o \
+    obj/keystore.o \
+    obj/idxlut.o \
+    obj/base58.o \
+    obj/main.o \
+    obj/diskpubkeypos.o \
+    obj/net.o \
+    obj/protocol.o \
+    obj/raqcoinrpc.o \
+    obj/rpcdump.o \
+    obj/rpcnet.o \
+    obj/rpcmining.o \
+    obj/rpcwallet.o \
+    obj/rpcblockchain.o \
+    obj/rpcrawtransaction.o \
+    obj/script.o \
+    obj/sync.o \
+    obj/util.o \
+    obj/wallet.o \
+    obj/walletdb.o \
+    obj/hash.o \
+    obj/bloom.o \
+    obj/noui.o \
+    obj/leveldb.o \
+    obj/txdb.o \
+    obj/validationinterface.o \
+    obj/raqcoin.o \
+    obj/miner.o
+
+ifndef USE_UPNP
+	override USE_UPNP = -
+endif
+ifneq (${USE_UPNP}, -)
+	DEFS += -DUSE_UPNP=$(USE_UPNP)
+ifdef STATIC
+	LIBS += $(LIBDIR)/miniupnpc/lib/libminiupnpc.a
+else
+	LIBS += -lminiupnpc
+endif
+endif
+
+ifneq (${USE_IPV6}, -)
+	DEFS += -DUSE_IPV6=$(USE_IPV6)
+endif
+
+all: raqcoin
+
+test check: test_raqcoin FORCE
+	./test_raqcoin
+
+#
+# LevelDB support
+#
+LIBS += $(CURDIR)/leveldb/libleveldb.a $(CURDIR)/leveldb/libmemenv.a
+DEFS += $(addprefix -I,$(CURDIR)/leveldb/include)
+DEFS += $(addprefix -I,$(CURDIR)/leveldb/helpers)
+leveldb/libleveldb.a:
+	@echo "Building LevelDB ..." && cd leveldb && $(MAKE) CC=$(CC) CXX=$(CXX) OPT="$(CFLAGS)" libleveldb.a libmemenv.a && cd ..
+
+# auto-generated dependencies:
+-include obj/*.P
+-include pqcrypto/*.p
+-include obj-test/*.P
+
+obj/build.h: FORCE
+	/bin/sh ../share/genbuild.sh obj/build.h
+version.cpp: obj/build.h
+DEFS += -DHAVE_BUILD_INFO
+
+LIBS += $(CURDIR)/pqcrypto/libpqcrypto.a
+DEFS += $(addprefix -I,$(CURDIR)/pqcrypto)
+PQCOBJS := $(patsubst pqcrypto/%.cpp,pqcrypto/%.o,$(wildcard pqcrypto/*.cpp))
+
+pqcrypto/%.o: pqcrypto/%.cpp
+	$(CXX) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	  rm -f $(@:%.o=%.d)
+pqcrypto/libpqcrypto.a: $(PQCOBJS)
+	ar rcs $@ $^
+
+obj/%.o: %.cpp
+	$(CXX) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	  rm -f $(@:%.o=%.d)
+
+raqcoin: $(OBJS:obj/%=obj/%)
+	$(CXX) $(CFLAGS) -Wl,-stack_size,0x8000000 -o $@ $(LIBPATHS) $^ $(LIBS)
+
+TESTOBJS := obj-test/gtest.a obj-test/gtest_main.a
+TESTOBJS += $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
+DEFS += $(addprefix -I,$(GTEST_DIR)/include)
+# begin google test rules
+# Flags passed to the preprocessor.
+
+USER_DIR ?= $(CURDIR)/obj-test
+GTEST_DIR ?= $(CURDIR)/gtest
+CPPFLAGS += -isystem $(GTEST_DIR)/include
+CXXFLAGS += -g -Wall -Wextra -pthread
+
+GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
+                $(GTEST_DIR)/include/gtest/internal/*.h
+
+GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
+
+obj-test/gtest-all.o : $(GTEST_DIR)/src/gtest-all.cc $(GTEST_SRCS_)
+	$(CXX) $(CFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c -o $@ $<
+
+obj-test/gtest_main.o : $(GTEST_DIR)/src/gtest_main.cc $(GTEST_SRCS_)
+	$(CXX) $(CFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c -o $@ $<
+
+obj-test/gtest.a : obj-test/gtest-all.o
+	ar rcs $@ $^
+
+obj-test/gtest_main.a : obj-test/gtest-all.o obj-test/gtest_main.o
+	ar rcs $@ $^
+
+# end google test rules
+
+
+
+obj-test/%.o: test/%.cpp
+	$(CXX) -c $(TESTDEFS) $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	  rm -f $(@:%.o=%.d)
+
+test_raqcoin: $(TESTOBJS) $(filter-out obj/raqcoin.o,$(OBJS:obj/%=obj/%))
+	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(TESTLIBS) $(LIBS)
+clean:
+	-rm -f raqcoin test_raqcoin
+	-rm -f obj/*.o
+	-rm -f obj-test/*.o
+	-rm -f pqcrypto/*.o
+	-rm -f obj/*.P
+	-rm -f obj-test/*.P
+	-rm -f pqcrypto/*.P
+	-rm -f pqcrypto/libpqcrypto.a
+	-rm -f obj-test/gtest.a
+	-rm -f obj-test/gtest_main.a
+	-rm -f obj-test/gtest-all.o
+	-rm -f obj-test/gtest_main.o
+	-rm -f obj/build.h
+	-cd leveldb && $(MAKE) clean || true
+
+FORCE:

@@ -1,0 +1,19 @@
+K = 20
+UNROLL = 8
+NVCC = nvcc
+NVCFLAGS =  --resource-usage -lineinfo -DPARK=$(K)
+
+obj/libgpumining.a:obj/gpumining.o 
+	ar rcs $@ $^
+
+obj/gpumining.o: gpumining.cu  obj/kernel.inc
+	$(NVCC) -c $(NVCFLAGS) $< -o $@
+
+obj/kernel.inc: gen_kernel.py
+	./gen_kernel.py -k $(K) --unroll=$(UNROLL) > obj/kernel.inc
+
+.PHONY:clean
+clean:
+	-rm -f obj/kernel.inc
+	-rm -f obj/gpumining.o
+	-rm -f obj/libgpumining.a

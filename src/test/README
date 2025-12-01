@@ -1,0 +1,15 @@
+The sources in this directory are unit test cases.  we use google C++ 
+testing framework, developers can compile the test case as below:
+
+make -f makefile.unix test
+
+The test file are named as source file name + "Test.cpp", or the main
+logic for this test file:
+
+scriptTest.cpp         // test for script.cpp
+publicKeyPosTest.cpp   // test case for public key position logic
+
+For further reading, I found the following website to be helpful for using
+google C++ testing framework:
+
+https://www.ibm.com/developerworks/aix/library/au-googletestingframework.html

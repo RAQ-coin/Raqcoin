@@ -1,0 +1,2 @@
+pqcrypto/aes.o: pqcrypto/aes.cpp pqcrypto/aes.h pqcrypto/ctaes.h
+pqcrypto/aes.cpp pqcrypto/aes.h pqcrypto/ctaes.h :

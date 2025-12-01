@@ -1,0 +1,2 @@
+Used in 0.1.0:
+* wallet.dat: personal wallet (BDB) with keys and transactions

@@ -1,0 +1,6 @@
+raqcoin-qt usr/bin
+share/pixmaps/raqcoin32.xpm usr/share/pixmaps
+share/pixmaps/raqcoin16.xpm usr/share/pixmaps
+share/pixmaps/raqcoin128.png usr/share/pixmaps
+debian/raqcoin-qt.desktop usr/share/applications
+debian/raqcoin-qt.protocol usr/share/kde4/services/

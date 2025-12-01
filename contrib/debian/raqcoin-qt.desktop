@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Raqcoin
+Comment=Raqcoin P2P Cryptocurrency
+Comment[fr]=Raqcoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Raqcoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/abcmint-qt %u
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/raqcoin128.png
+MimeType=x-scheme-handler/abcmint;
+Categories=Office;

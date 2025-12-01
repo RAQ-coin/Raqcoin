@@ -1,0 +1,10 @@
+pqcrypto/rng.o: pqcrypto/rng.cpp pqcrypto/pqcrypto.h \
+  pqcrypto/pqcrypt_util.h pqcrypto/pqcrypt_cfg.h \
+  pqcrypto/pqcrypt_macros.h pqcrypto/pqcrypt_cipher.h pqcrypto/sha256.h \
+  pqcrypto/sha512.h pqcrypto/sha384.h pqcrypto/rng.h pqcrypto/aes.h \
+  pqcrypto/ctaes.h pqcrypto/pqcrypt_prng.h pqcrypto/pqcrypt_argchk.h
+pqcrypto/rng.cpp pqcrypto/pqcrypto.h :
+  pqcrypto/pqcrypt_util.h pqcrypto/pqcrypt_cfg.h :
+  pqcrypto/pqcrypt_macros.h pqcrypto/pqcrypt_cipher.h pqcrypto/sha256.h :
+  pqcrypto/sha512.h pqcrypto/sha384.h pqcrypto/rng.h pqcrypto/aes.h :
+  pqcrypto/ctaes.h pqcrypto/pqcrypt_prng.h pqcrypto/pqcrypt_argchk.h :

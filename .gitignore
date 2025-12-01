@@ -1,0 +1,130 @@
+# Raqcoin .gitignore
+
+# ============================================
+# 编译产物 (可以清理)
+# ============================================
+
+# 备份文件
+backup
+moredoc
+
+# 构建输出目录
+release
+build
+
+# 可执行文件
+src/raqcoin
+src/raqcoinrpc
+src/raqcoin-cli
+src/raqcoin-tx
+src/test_raqcoin
+src/test_*
+
+# 编译中间文件
+src/obj/
+src/obj-test/
+src/*.o
+src/*.a
+.qmake.stash
+raqcoin-qt-p.app
+
+# 编译生成的头文件
+src/obj/build.h
+
+# ============================================
+# 运行时数据 (可以清理)
+# ============================================
+
+# 区块链数据目录
+src/blocks/
+src/chainstate/
+src/pubpos/
+
+# 数据库文件
+src/*.log
+src/db.log
+src/debug.log
+src/.lock
+
+# 钱包和配置
+src/wallet.dat
+src/wallet.dat.*
+src/raqcoin.conf
+src/peers.dat
+src/banlist.dat
+src/fee_estimates.dat
+
+# ============================================
+# 临时文件 (可以清理)
+# ============================================
+
+# 备份文件
+*.bak
+*.old
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python缓存
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE和编辑器
+.vscode/
+.idea/
+*.sublime-*
+.project
+.cproject
+.settings/
+
+# ============================================
+# 依赖库编译产物 (可以清理)
+# ============================================
+
+# LevelDB
+src/leveldb/*.o
+src/leveldb/libleveldb.a
+src/leveldb/libmemenv.a
+src/leveldb/build_config.mk
+
+# pqcrypto
+src/pqcrypto/*.o
+src/pqcrypto/libpqcrypto.a
+
+# gtest
+src/gtest/*.o
+src/gtest/lib*.a
+
+# ============================================
+# macOS 特定
+# ============================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ============================================
+# Qt 编译产物 (如果有Qt版本)
+# ============================================
+src/qt/moc_*.cpp
+src/qt/ui_*.h
+src/qt/qrc_*.cpp
+src/qt/*.moc
+Makefile
+Makefile.Debug
+Makefile.Release
+object_script.*.Debug
+object_script.*.Release
+*.pro.user
+*.pro.user.*
+
+# ============================================
+# 保留的文件 (不要清理)
+# ============================================
+# 源代码: *.cpp, *.h, *.c
+# 构建脚本: makefile.*, *.sh
+# 文档: README*, LICENSE*, doc/
+# 配置: *.conf.example, *.json
+# 静态库: rainbow18/librainbowpro_unix_arm64.a (这是预编译的库)

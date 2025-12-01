@@ -1,0 +1,87 @@
+# This makefile will build a Linux application
+# this is for sample code build
+
+#==============================================================================
+# GNU pathes												(server admin update)
+#==============================================================================
+PATH_GNU_BIN=/usr/bin
+
+#==============================================================================
+# GNU 		binaries										(server admin update)
+#==============================================================================
+CC=$(PATH_GNU_BIN)/gcc
+CXX=$(PATH_GNU_BIN)/gcc
+RAN=$(PATH_GNU_BIN)/ranlib
+
+
+#==============================================================================
+# GNU build options: all										(build engineer update)				
+#==============================================================================
+CFLAGS=  -D LINUX_VERSION_X86 -lpthread
+ARFLAGS=rs
+
+
+
+#==============================================================================
+# User root path											(user update)
+#==============================================================================
+CSRC_DIR :=../../src/rainbow/core/
+SSRC_DIR :=
+INC_DIR :=-I ../../src/rainbow/core/  -I ../../include/ 
+OUT_DIR := ./
+BIN_DIR :=./
+LIBPATH= -L/usr/local/lib -L/opt/local/lib -L/usr/lib
+
+OBJ:= 
+OBJ += $(OUT_DIR)rb_core_parallel_matrix_op.o
+OBJ += $(OUT_DIR)rb_core_rainbow.o
+OBJ += $(OUT_DIR)rb_core_rainbow_keypair.o
+OBJ += $(OUT_DIR)rb_core_rainbow_keypair_computation.o
+OBJ += $(OUT_DIR)rb_core_rainbow_publicmap.o
+OBJ += $(OUT_DIR)rb_core_aes256_ecb.o
+OBJ += $(OUT_DIR)rb_core_blas_comm.o
+OBJ += $(OUT_DIR)rb_core_blas_matrix.o
+OBJ += $(OUT_DIR)rb_core_blas_matrix_ref.o
+OBJ += $(OUT_DIR)rb_core_common_functions.o
+OBJ += $(OUT_DIR)rb_core_fortuna.o
+OBJ += $(OUT_DIR)rb_core_random.o
+OBJ += $(OUT_DIR)rb_core_rijndael.o
+OBJ += $(OUT_DIR)rb_core_rng.o
+OBJ += $(OUT_DIR)rb_core_sign.o
+OBJ += $(OUT_DIR)rb_core_sha256.o
+OBJ += $(OUT_DIR)rb_core_sha256_pqc.o
+OBJ += $(OUT_DIR)rb_core_sha512.o
+OBJ += $(OUT_DIR)rb_core_utils.o
+OBJ += $(OUT_DIR)rb_core_utils_hash.o
+OBJ += $(OUT_DIR)rb_core_utils_prng.o
+OBJ += $(OUT_DIR)rb_core_rainbow-genkey.o
+OBJ += $(OUT_DIR)rb_core_rainbow-sign.o
+OBJ += $(OUT_DIR)rb_core_rainbow-verify.o
+OBJ += $(OUT_DIR)rb_core_blas_comm_sse.o
+
+
+
+OUTPUT_TARGET=$(BIN_DIR)librainbowpro_unix.a 
+
+
+
+.PHONY:
+$(OUT_DIR)%.o: $(CSRC_DIR)%.c 
+	$(CC) -c -march=native -mfma -mavx2 -msse -msse2  -maes -mstackrealign -lm $(CFLAGS) $(INC_DIR) -o $@ $<
+	
+
+all : $(OUTPUT_TARGET) 
+
+$(OUTPUT_TARGET) : $(OBJ) 
+	$(AR)  $(ARFLAGS) $@ $^
+	$(RAN) $@
+	rm *.o
+clean:
+	rm -fr $(OUT_DIR)* $(OUTPUT_TARGET)
+	rm *.o
+
+
+
+
+
+
