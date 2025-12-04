@@ -1,7 +1,7 @@
 Raqcoin integration/staging tree
 ================================
 
-www.Raqmint.org
+www.Raqcoin.info
 
 Copyright (c) 2025 The Raqcoin developers
 
@@ -15,7 +15,7 @@ out collectively by the network. Raqcoin is also the name of the open source
 software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the RaqcoinCore client software, see www.Raqmint.org.
+the RaqcoinCore client software, see www.Raqcoin.info.
 
 License
 -------
