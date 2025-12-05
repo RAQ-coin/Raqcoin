@@ -7,7 +7,6 @@ Copyright (c) 2025 The Raqcoin developers
 
 What is Raqcoin?
 ----------------
-
 Raqcoin is an experimental new digital currency that enables instant payments to
 anyone, anywhere in the world. Raqcoin uses peer-to-peer technology to operate
 with no central authority: managing transactions and issuing money are carried
@@ -15,7 +14,7 @@ out collectively by the network. Raqcoin is also the name of the open source
 software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the RaqcoinCore client software, see www.Raqmint.org.
+the RaqcoinCore client software, see www.Raqcoin.info
 
 License
 -------
@@ -27,7 +26,7 @@ THIRD PARTY SOFTWARE DISCLOSURE, ATTRIBUTIONS, COPYRIGHT NOTICES, AND LICENSES
 Certain open source third-party software and data components are integrated and/or redistributed with
 ABCMintCore. Such third-party components include terms and conditions, such as attribution and liability disclaimers (collectively "Third Party Disclosures") for which disclosure is required by their respective owners. This notice sets forth such Third Party Disclosures for ABCMintCore. 
 
-ABC MINT FOUNDATION MAKES NO REPRESENTATION, WARRANTY OR OTHER COMMITMENT REGARDING SUCH THIRD PARTY COMPONENTS.  RAQCOINCORE, AND ALL THIRD PARTY COMPONENTS, ARE DISTRIBUTED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, UNLESS PROHIBITED BY APPLICABLE LAW
+RAQCOIN FOUNDATION MAKES NO REPRESENTATION, WARRANTY OR OTHER COMMITMENT REGARDING SUCH THIRD PARTY COMPONENTS.  RAQCOINCORE, AND ALL THIRD PARTY COMPONENTS, ARE DISTRIBUTED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, UNLESS PROHIBITED BY APPLICABLE LAW
 
 
 1. Openssl
@@ -164,12 +163,12 @@ Unit tests for the GUI code are in `src/qt/test/`. To compile and run them:
 
     qmake RAQCOIN_QT_TEST=1 -o Makefile.test raqcoin-qt.pro
     make -f Makefile.test
-    ./abcmint-qt_test
+    ./raqcoin-qt_test
 
 Every pull request is built for both Windows and Linux on a dedicated server,
 and unit and sanity tests are automatically run. The binaries produced may be
 used for manual QA testing — a link to them will appear in a comment on the
-pull request posted by [AbcmintPullTester](https://github.com/AbcmintPullTester). See https://github.com/TheBlueMatt/test-scripts
+pull request posted by (https://github.com/RAQ-coin/). See https://github.com/RAQ-coin/test-scripts
 for the build/test scripts.
 
 ### Manual Quality Assurance (QA) Testing
@@ -177,7 +176,7 @@ for the build/test scripts.
 Large changes should have a test plan, and should be tested by somebody other
 than the developer who wrote the code.
 
-See https://github.com/abcmint/QA/ for how to create a test plan.
+See https://github.com/RAQ-coin/QA/ for how to create a test plan.
 
 ### Mining Algorithm Using GPU 
 A new program that can be used to do ABC mining on a GPU is recently release at
