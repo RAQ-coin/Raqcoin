@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 
 
@@ -44,9 +45,10 @@
 	#define OP_AVX2
 	#define OP_SSE
 #endif
-
-
 #define RAINBOWNPRO_HEADER_LEN 6
+
+// Use pointer-sized handle type so addresses are not truncated on 64-bit builds.
+typedef uintptr_t rb_handle;
 
 
 #define ONLY_SIGN

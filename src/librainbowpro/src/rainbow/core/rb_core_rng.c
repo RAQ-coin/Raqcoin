@@ -24,7 +24,7 @@ void rb_AES256_ECB(unsigned char *key, unsigned char *ctr, unsigned char *buffer
 
 
 
-void rb_randombytes_init(unsigned long handle, unsigned char *entropy_input,unsigned char *personalization_string)
+void rb_randombytes_init(rb_handle handle, unsigned char *entropy_input,unsigned char *personalization_string)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned char   seed_material[48]; 
@@ -42,7 +42,7 @@ void rb_randombytes_init(unsigned long handle, unsigned char *entropy_input,unsi
 }
 
 
-int rb_randombytes(unsigned long handle, unsigned char *x, unsigned int xlen)
+int rb_randombytes(rb_handle handle, unsigned char *x, unsigned int xlen)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned char   block[16];

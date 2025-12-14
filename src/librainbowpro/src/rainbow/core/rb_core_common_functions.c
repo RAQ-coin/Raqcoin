@@ -271,9 +271,9 @@ struct CacheTLBIndex CacheTLB[110] = {
 	{0x66, "L1 Data Cache:       \t8 KByte, 4-way set associative, 64 byte line size\n"},
 	{0x67, "L1 Data Cache:       \t16 KByte, 4-way set associative, 64 byte line size\n"},
 	{0x68, "L1 Data Cache:       \t32 KByte, 4-way set associative, 64 byte line size\n"},
-	{0x70, "Trace Cache:         \t12 K-¦Ìop, 8-way set associative\n"},
-	{0x71, "Trace Cache:         \t16 K-¦Ìop, 8-way set associative\n"},
-	{0x72, "Trace Cache:         \t32 K-¦Ìop, 8-way set associative\n"},
+	{0x70, "Trace Cache:         \t12 K-ï¿½ï¿½op, 8-way set associative\n"},
+	{0x71, "Trace Cache:         \t16 K-ï¿½ï¿½op, 8-way set associative\n"},
+	{0x72, "Trace Cache:         \t32 K-ï¿½ï¿½op, 8-way set associative\n"},
 	{0x78, "L2 Cache:            \t1 MByte, 4-way set associative, 64 byte line size\n"},
 	{0x79, "L2 Cache:            \t128 KByte, 8-way set associative, 64 byte line size, 2 lines per sector\n"},
 	{0x7A, "L2 Cache:            \t256 KByte, 8-way set associative, 64 byte line size, 2 lines per sector\n"},
@@ -1359,7 +1359,7 @@ typedef int32_t CPUIDFIELD;
 #define CPUIDFIELD_POS(cpuidfield)	( ((cpuidfield) & CPUIDFIELD_MASK_POS)>>CPUIDFIELD_SHIFT_POS )
 #define CPUIDFIELD_LEN(cpuidfield)	( (((cpuidfield) & CPUIDFIELD_MASK_LEN)>>CPUIDFIELD_SHIFT_LEN) + 1 )
 
-// È¡µÃÎ»Óò
+// È¡ï¿½ï¿½Î»ï¿½ï¿½
 #ifndef __GETBITS32
 #define __GETBITS32(src,pos,len)	( ((src)>>(pos)) & (((uint32_t)-1)>>(32-len)) )
 #endif

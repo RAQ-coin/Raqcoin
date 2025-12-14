@@ -21,8 +21,8 @@ void printf_debuginfo(char* s, unsigned char* buf, unsigned int len)
 }
 unsigned int rainbowplus_get_size_inner(unsigned int config_value, unsigned int set_display_debuginfo, unsigned int* sk_size, unsigned int* pk_size, unsigned int* hash_size, unsigned int* sign_size);
 unsigned int get_mix_config_size(unsigned int config_value, unsigned int set_display_debuginfo, unsigned int* sk_size, unsigned int* pk_size, unsigned int* hash_size, unsigned int* sign_size);
-extern unsigned int rainbow_pro_signconfig_tobuffer(unsigned long handle);
-unsigned int rainbow_pro_sign(unsigned long handle, unsigned int set_display_debuginfo, unsigned char**sm, unsigned int* smlen,  unsigned char* m, unsigned int mlen, unsigned char* sk_buf, unsigned int sk_size, unsigned char** hash_of_sign)
+extern unsigned int rainbow_pro_signconfig_tobuffer(rb_handle handle);
+unsigned int rainbow_pro_sign(rb_handle handle, unsigned int set_display_debuginfo, unsigned char**sm, unsigned int* smlen,  unsigned char* m, unsigned int mlen, unsigned char* sk_buf, unsigned int sk_size, unsigned char** hash_of_sign)
 {
 	unsigned int ret = 0;
 	int r = 0;
@@ -1009,7 +1009,7 @@ unsigned int rainbowplus_get_keypair_inner(
 	unsigned char* Hash_of_Private_Key,
 	unsigned char* Hash_of_Public_Key)
 {
-	unsigned long handle = 0;
+	rb_handle handle = 0;
 	unsigned int ret = 0;
 
 	unsigned char* Private_Key = NULL;
@@ -1204,7 +1204,7 @@ unsigned int rainbowplus_get_keypair(
 
 unsigned int rainbowplus_hash_inner(unsigned int config_value, unsigned int set_display_debuginfo, unsigned char* m, unsigned int mlen, unsigned char* hash_buf, unsigned int hash_size)
 {
-	unsigned long handle = 0;
+	rb_handle handle = 0;
 	unsigned int ret = 0;
 
 	unsigned char* digest_hash = NULL;
@@ -1429,7 +1429,7 @@ unsigned int rainbowplus_get_subtype_number_of_onetype(unsigned int type, unsign
 }
 unsigned int rainbowplus_sign_inner(unsigned int config_value, unsigned int set_display_debuginfo, unsigned int set_no_salt, unsigned char* sign_buf, unsigned int sign_size, unsigned char* m_hash, unsigned int mlen_hash, unsigned char* sk_buf, unsigned int sk_size, unsigned char* hash_of_sign)
 {
-	unsigned long handle = 0;
+	rb_handle handle = 0;
 	unsigned int ret = 0;
 
 	unsigned char* sm = NULL;
@@ -1635,7 +1635,7 @@ unsigned int rainbowplus_sign(unsigned int config_value,  unsigned int set_displ
 }
 unsigned int rainbowplus_verify_inner(unsigned int config_value, unsigned int set_display_debuginfo, unsigned char* hash_buf, unsigned int hash_size, unsigned char* sign_buf, unsigned int sign_size, unsigned char* pk_buf, unsigned int pk_size)
 {
-	unsigned long handle = 0;
+	rb_handle handle = 0;
 	unsigned int ret = 0;
 	unsigned int n_sk_size = 0;
 	unsigned int n_pk_size = 0;

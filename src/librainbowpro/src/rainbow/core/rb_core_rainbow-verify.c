@@ -12,10 +12,10 @@
 
 
 
-extern unsigned int rainbow_pro_reset(unsigned long *handle, unsigned int  index, unsigned int set_display_debuginfo, unsigned int set_no_salt);
+extern unsigned int rainbow_pro_reset(rb_handle *handle, unsigned int  index, unsigned int set_display_debuginfo, unsigned int set_no_salt);
 
 unsigned int rainbow_pro_verify(
-	unsigned long handle, 
+	rb_handle handle, 
 	unsigned int set_display_debuginfo, 
 	unsigned char* m, unsigned int mlen, 
 	unsigned char* sign_buf, unsigned int sign_size, 

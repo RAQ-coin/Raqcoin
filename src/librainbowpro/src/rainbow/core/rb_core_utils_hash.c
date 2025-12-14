@@ -23,7 +23,7 @@ static inline int rb__hash( unsigned char * digest , const unsigned char * m , u
 	if (P_HASH_LEN == 32)
 	{
 #ifdef HASH_APIs_Be_Used_IN_Inner
-		unsigned long sha256_handle = 0;
+		rb_handle sha256_handle = 0;
 		rainbow_pro_sha256_init(&sha256_handle);
 		rainbow_pro_sha256_update(sha256_handle, (unsigned char *)m, (size_t)mlen);
 		rainbow_pro_sha256_final(sha256_handle, digest);
@@ -40,7 +40,7 @@ static inline int rb__hash( unsigned char * digest , const unsigned char * m , u
 		if (P_HASH_LEN == 48)
 		{
 #ifdef HASH_APIs_Be_Used_IN_Inner
-			unsigned long sha384_handle = 0;
+			rb_handle sha384_handle = 0;
 			rainbow_pro_sha384_init(&sha384_handle);
 			rainbow_pro_sha384_update(sha384_handle, (unsigned char*)m, (size_t)mlen);
 			rainbow_pro_sha384_final(sha384_handle, digest);
@@ -58,7 +58,7 @@ static inline int rb__hash( unsigned char * digest , const unsigned char * m , u
 			if (P_HASH_LEN == 64)
 			{
 #ifdef HASH_APIs_Be_Used_IN_Inner
-				unsigned long sha512_handle = 0;
+				rb_handle sha512_handle = 0;
 				rainbow_pro_sha512_init(&sha512_handle);
 				rainbow_pro_sha512_update(sha512_handle, (unsigned char*)m, (size_t)mlen);
 				rainbow_pro_sha512_final(sha512_handle, digest);

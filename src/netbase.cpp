@@ -363,7 +363,11 @@ bool static ConnectSocketDirectly(const CService &addrConnect, SOCKET& hSocketRe
     }
 
     int keep_alive = 1;
+#ifdef WIN32
+    setsockopt(hSocket, SOL_SOCKET, SO_KEEPALIVE, (const char *)&keep_alive, sizeof(keep_alive));
+#else
     setsockopt(hSocket, SOL_SOCKET, SO_KEEPALIVE, (const void *)&keep_alive, sizeof(keep_alive));
+#endif
 #ifdef WIN32
     struct tcp_keepalive in_keep_alive = {0};
     struct tcp_keepalive out_keep_alive = {0};

@@ -23,10 +23,10 @@ static inline uint8_t rb_gf256v_get_ele(const uint8_t *a, unsigned int i)
     return a[i]; 
 }
 
-void rb_gf256v_set_zero(unsigned long handle, uint8_t* b, unsigned int _num_byte);
-unsigned int rb_gf16mat_gauss_elim_8x16_ref(unsigned long handle, uint8_t* mat);
-unsigned int rb_gf16mat_gauss_elim_16x32_ref(unsigned long handle, uint8_t* mat);
-unsigned int rb_gf256mat_gauss_elim_ref(unsigned long handle, uint8_t* mat, unsigned int h, unsigned int w);
+void rb_gf256v_set_zero(rb_handle handle, uint8_t* b, unsigned int _num_byte);
+unsigned int rb_gf16mat_gauss_elim_8x16_ref(rb_handle handle, uint8_t* mat);
+unsigned int rb_gf16mat_gauss_elim_16x32_ref(rb_handle handle, uint8_t* mat);
+unsigned int rb_gf256mat_gauss_elim_ref(rb_handle handle, uint8_t* mat, unsigned int h, unsigned int w);
 
 
 #endif  

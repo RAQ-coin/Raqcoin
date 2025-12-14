@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 
-void rb_gf256v_set_zero(unsigned long handle,uint8_t *b, unsigned int _num_byte)
+void rb_gf256v_set_zero(rb_handle handle,uint8_t *b, unsigned int _num_byte)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     if(_num_byte)

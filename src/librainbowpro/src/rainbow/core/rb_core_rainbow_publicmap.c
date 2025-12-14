@@ -7,7 +7,7 @@
 
 
 
-void rb_accu_eval_quad(unsigned long handle, unsigned char * accu_res , unsigned char * trimat , unsigned char * x_in_byte , unsigned int num_gfele_x , unsigned int vec_len)
+void rb_accu_eval_quad(rb_handle handle, unsigned char * accu_res , unsigned char * trimat , unsigned char * x_in_byte , unsigned int num_gfele_x , unsigned int vec_len)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int cnt = 0;
@@ -53,7 +53,7 @@ void rb_accu_eval_quad(unsigned long handle, unsigned char * accu_res , unsigned
 
 
 }
-static void rb_accu_eval_quad_rect( unsigned long handle, unsigned char * accu_res , const unsigned char * y , unsigned int num_y , const unsigned char * mat , const unsigned char * x , unsigned int num_x , unsigned int vec_len)
+static void rb_accu_eval_quad_rect( rb_handle handle, unsigned char * accu_res , const unsigned char * y , unsigned int num_y , const unsigned char * mat , const unsigned char * x , unsigned int num_x , unsigned int vec_len)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned char *_xy =(unsigned char *)rb_safe_malloc(HD->P_MAX_N);
@@ -71,7 +71,7 @@ static void rb_accu_eval_quad_rect( unsigned long handle, unsigned char * accu_r
     rb_safe_free(_xy);
 
 }
-static void rb_madd_reduce(unsigned long handle, unsigned char* y, const unsigned char* tmp_res, unsigned int vec_len)
+static void rb_madd_reduce(rb_handle handle, unsigned char* y, const unsigned char* tmp_res, unsigned int vec_len)
 {
 
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -150,7 +150,7 @@ if (256 == HD->P_GFSIZE)
 rb_safe_free(tmp);
 
 }
-void rb_rainbow_publicmap_cpk(unsigned long handle, unsigned char * z, const rb_cpk_t * pk, const unsigned char *w)
+void rb_rainbow_publicmap_cpk(rb_handle handle, unsigned char * z, const rb_cpk_t * pk, const unsigned char *w)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     rb_prng_t prng0;

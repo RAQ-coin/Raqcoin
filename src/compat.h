@@ -27,7 +27,7 @@
 #include <ifaddrs.h>
 #endif
 
-#ifndef MINGW
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
 typedef u_int SOCKET;
 #endif
 

@@ -66,15 +66,15 @@ extern "C" {
 
 
 RBPROCALL rainbow_pro_init(
-	unsigned long* handle,
+	rb_handle* handle,
 	unsigned int  type,
 	unsigned int  subtype,
 	unsigned int set_display_debuginfo,
 	unsigned int set_no_salt,
 	unsigned int* sk_size, unsigned int* pk_size, unsigned int* hash_size, unsigned int* sign_size);
-RBPROCALL rainbow_pro_uninit(unsigned long handle);
+RBPROCALL rainbow_pro_uninit(rb_handle handle);
 RBPROCALL rainbow_pro_genkey(
-	unsigned long handle,
+	rb_handle handle,
 	unsigned int set_display_debuginfo,
 	unsigned char* seed, unsigned int seed_len,
 	unsigned char** Private_Key, unsigned int* Private_Key_Len,
@@ -82,37 +82,37 @@ RBPROCALL rainbow_pro_genkey(
 	unsigned char** Hash_of_Private_Key, unsigned char** Hash_of_Public_Key);
 
 RBPROCALL rainbow_pro_digest_hash(
-	unsigned long handle,
+	rb_handle handle,
 	unsigned int set_display_debuginfo,
 	unsigned char* m, unsigned int mlen,
 	unsigned char** digest, unsigned int* digest_len);
 RBPROCALL rainbow_pro_sign(
-	unsigned long handle,
+	rb_handle handle,
 	unsigned int set_display_debuginfo,
 	unsigned char** sm, unsigned int* smlen,
 	unsigned char* m, unsigned int mlen,
 	unsigned char* sk_buf, unsigned int sk_size,
 	unsigned char** hash_of_sign);
 RBPROCALL rainbow_pro_verify(
-	unsigned long handle,
+	rb_handle handle,
 	unsigned int set_display_debuginfo,
 	unsigned char* hash_buf, unsigned int hash_size,
 	unsigned char* sign_buf, unsigned int sign_size,
 	unsigned char* pk_buf, unsigned int pk_size);
 RBPROCALL rainbow_pro_readfilebyte_to_onebuffer(unsigned char** msg, unsigned int* len, const char* f_name);
-RBPROCALL rainbow_pro_savebuffer_tofile(unsigned long handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format);
+RBPROCALL rainbow_pro_savebuffer_tofile(rb_handle handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format);
 
-RBPROCALL rainbow_pro_sha256_init(unsigned long* hash_handle);
-RBPROCALL rainbow_pro_sha256_update(unsigned long hash_handle, unsigned char* data, unsigned int len);
-RBPROCALL rainbow_pro_sha256_final(unsigned long hash_handle, unsigned char* hash_digest);
+RBPROCALL rainbow_pro_sha256_init(rb_handle* hash_handle);
+RBPROCALL rainbow_pro_sha256_update(rb_handle hash_handle, unsigned char* data, unsigned int len);
+RBPROCALL rainbow_pro_sha256_final(rb_handle hash_handle, unsigned char* hash_digest);
 
-RBPROCALL rainbow_pro_sha384_init(unsigned long* hash_handle);
-RBPROCALL rainbow_pro_sha384_update(unsigned long hash_handle, unsigned char* data, unsigned int len);
-RBPROCALL rainbow_pro_sha384_final(unsigned long hash_handle, unsigned char* hash_digest);
+RBPROCALL rainbow_pro_sha384_init(rb_handle* hash_handle);
+RBPROCALL rainbow_pro_sha384_update(rb_handle hash_handle, unsigned char* data, unsigned int len);
+RBPROCALL rainbow_pro_sha384_final(rb_handle hash_handle, unsigned char* hash_digest);
 
-RBPROCALL rainbow_pro_sha512_init(unsigned long* hash_handle);
-RBPROCALL rainbow_pro_sha512_update(unsigned long hash_handle, unsigned char* data, unsigned int len);
-RBPROCALL rainbow_pro_sha512_final(unsigned long hash_handle, unsigned char* hash_digest);
+RBPROCALL rainbow_pro_sha512_init(rb_handle* hash_handle);
+RBPROCALL rainbow_pro_sha512_update(rb_handle hash_handle, unsigned char* data, unsigned int len);
+RBPROCALL rainbow_pro_sha512_final(rb_handle hash_handle, unsigned char* hash_digest);
 
 RBPROCALL_VOIDP rb_safe_calloc(unsigned int num, unsigned int size);
 RBPROCALL_VOIDP rb_safe_malloc(unsigned int length);

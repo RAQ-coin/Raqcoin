@@ -640,12 +640,12 @@ void gf256v_generate_multab_sse( uint8_t * _multabs , const uint8_t * _x , unsig
 	}
 }
 
-void gf16mat_prod_multab_sse(unsigned long handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab );
-void gf16mat_prod_sse(unsigned long handle, uint8_t * c , const uint8_t * mat_a , unsigned a_h_byte , unsigned a_w , const uint8_t * b );
-void gf256mat_prod_multab_sse(unsigned long handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab );
-void gf256mat_prod_sse(unsigned long handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * b );
-unsigned gf16mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned h , unsigned w );
-unsigned gf256mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned h , unsigned w );
+void gf16mat_prod_multab_sse(rb_handle handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab );
+void gf16mat_prod_sse(rb_handle handle, uint8_t * c , const uint8_t * mat_a , unsigned a_h_byte , unsigned a_w , const uint8_t * b );
+void gf256mat_prod_multab_sse(rb_handle handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab );
+void gf256mat_prod_sse(rb_handle handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * b );
+unsigned gf16mat_gauss_elim_sse(rb_handle handle, uint8_t * mat , unsigned h , unsigned w );
+unsigned gf256mat_gauss_elim_sse(rb_handle handle, uint8_t * mat , unsigned h , unsigned w );
 
 
 

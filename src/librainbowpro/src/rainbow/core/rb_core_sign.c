@@ -7,10 +7,10 @@
 #include "rb_core_utils_hash.h"
 #include "rb_core_rng.h"
 
-extern unsigned int rainbow_pro_savebuffer_tofile(unsigned long handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format);
+extern unsigned int rainbow_pro_savebuffer_tofile(rb_handle handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format);
 extern void printf_debuginfo(char* s, unsigned char* buf, unsigned int len);
 
-int rb_crypto_generate_keypair(unsigned long handle,unsigned char *pk, unsigned char *sk)
+int rb_crypto_generate_keypair(rb_handle handle,unsigned char *pk, unsigned char *sk)
 {
 
 	RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -86,8 +86,8 @@ int rb_crypto_generate_keypair(unsigned long handle,unsigned char *pk, unsigned 
 
 	if (HD->set_display_debuginfo >= 1)
 	{
-		rainbow_pro_savebuffer_tofile((unsigned long)HD, NULL, sk_seed, HD->P_LEN_SKSEED, " sk_seed", 1, 0);
-		rainbow_pro_savebuffer_tofile((unsigned long)HD, NULL, pk_seed, HD->P_LEN_PKSEED, " pk_seed", 1, 0);
+		rainbow_pro_savebuffer_tofile((rb_handle)HD, NULL, sk_seed, HD->P_LEN_SKSEED, " sk_seed", 1, 0);
+		rainbow_pro_savebuffer_tofile((rb_handle)HD, NULL, pk_seed, HD->P_LEN_PKSEED, " pk_seed", 1, 0);
 	}
 
 
@@ -124,7 +124,7 @@ int rb_crypto_generate_keypair(unsigned long handle,unsigned char *pk, unsigned 
 
 
 
-int rb_crypto_sign(unsigned long handle, unsigned char* sm, unsigned int* smlen, unsigned char* digest_hash, unsigned int digest_hash_len, unsigned char* sk)
+int rb_crypto_sign(rb_handle handle, unsigned char* sm, unsigned int* smlen, unsigned char* digest_hash, unsigned int digest_hash_len, unsigned char* sk)
 {
 	RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 	int r = -1;

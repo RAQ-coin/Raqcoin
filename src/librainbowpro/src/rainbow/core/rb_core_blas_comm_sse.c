@@ -27,7 +27,7 @@
 #define ALIGN(x)
 #endif
 
-void gf16mat_prod_add_multab_sse(unsigned long handle, uint8_t* c, const uint8_t* matA, unsigned n_A_vec_byte, unsigned n_A_width, const uint8_t* multab) 
+void gf16mat_prod_add_multab_sse(rb_handle handle, uint8_t* c, const uint8_t* matA, unsigned n_A_vec_byte, unsigned n_A_width, const uint8_t* multab) 
 {
 	assert(n_A_vec_byte <= 512);
 	__m128i tmp_c[32];
@@ -38,7 +38,7 @@ void gf16mat_prod_add_multab_sse(unsigned long handle, uint8_t* c, const uint8_t
 
 
 static
-void gf16mat_prod_multab_16_sse(unsigned long handle, uint8_t * c , const uint8_t * matA , unsigned n_A_width , const uint8_t * multab ) {
+void gf16mat_prod_multab_16_sse(rb_handle handle, uint8_t * c , const uint8_t * matA , unsigned n_A_width , const uint8_t * multab ) {
 	//assert( n_A_width <= 224 );
 	//assert( n_A_width > 0 );
 
@@ -68,7 +68,7 @@ void gf16mat_prod_multab_16_sse(unsigned long handle, uint8_t * c , const uint8_
 
 
 
-void gf16mat_prod_multab_sse(unsigned long handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab )
+void gf16mat_prod_multab_sse(rb_handle handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab )
 {
 	if( 16 == n_A_vec_byte ) 
 	{ 
@@ -147,7 +147,7 @@ uint8_t _gf16v_get_ele( const uint8_t *a , unsigned i ) {
 
 
 
-void gf16mat_prod_16_sse(unsigned long handle, uint8_t * c , const uint8_t * mat_a , unsigned a_w , const uint8_t * b ) {
+void gf16mat_prod_16_sse(rb_handle handle, uint8_t * c , const uint8_t * mat_a , unsigned a_w , const uint8_t * b ) {
 	assert( 0 == (a_w&0x1f) );
 	__m128i mask_f = _mm_set1_epi8(0xf);
 
@@ -185,7 +185,7 @@ void gf16mat_prod_16_sse(unsigned long handle, uint8_t * c , const uint8_t * mat
 }
 
 
-void gf16mat_prod_sse(unsigned long handle, uint8_t * c , const uint8_t * mat_a , unsigned a_h_byte , unsigned a_w , const uint8_t * b )
+void gf16mat_prod_sse(rb_handle handle, uint8_t * c , const uint8_t * mat_a , unsigned a_h_byte , unsigned a_w , const uint8_t * b )
 {
 	if( 16==a_h_byte && (0==(a_w&0x1f)) ) 
 	{ 
@@ -266,7 +266,7 @@ void gf16mat_prod_sse(unsigned long handle, uint8_t * c , const uint8_t * mat_a 
 
 /// access aligned memory.
 static
-unsigned _gf16mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned h , unsigned w_byte )
+unsigned _gf16mat_gauss_elim_sse(rb_handle handle, uint8_t * mat , unsigned h , unsigned w_byte )
 {
 	/*assert( 0==(w_byte&31) ); /// w_byte is a multiple of 32.
 	assert( 224 >= h );*/
@@ -345,7 +345,7 @@ unsigned _gf16mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned 
 }
 
 
-unsigned gf16mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned h , unsigned w )
+unsigned gf16mat_gauss_elim_sse(rb_handle handle, uint8_t * mat , unsigned h , unsigned w )
 {
 	assert( 0 == (w&1) ); // w is even.
 	assert( 448 >= w );
@@ -362,7 +362,7 @@ unsigned gf16mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned h
 }
 
 
-unsigned int rb_gf16mat_gauss_elim_8x16_sse(unsigned long handle, uint8_t* mat)
+unsigned int rb_gf16mat_gauss_elim_8x16_sse(rb_handle handle, uint8_t* mat)
 {
 	return gf16mat_gauss_elim_sse(handle, mat, 8, 16);
 }
@@ -375,7 +375,7 @@ unsigned int rb_gf16mat_gauss_elim_8x16_sse(unsigned long handle, uint8_t* mat)
 
 
 
-void gf256mat_prod_add_multab_sse(unsigned long handle, __m128i * r , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab ) {
+void gf256mat_prod_add_multab_sse(rb_handle handle, __m128i * r , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab ) {
 	__m128i mask_f = _mm_set1_epi8(0xf);
 	unsigned n_xmm = ((n_A_vec_byte + 15)>>4);
 
@@ -396,7 +396,7 @@ void gf256mat_prod_add_multab_sse(unsigned long handle, __m128i * r , const uint
 }
 
 
-void gf256mat_prod_multab_sse(unsigned long handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab ) {
+void gf256mat_prod_multab_sse(rb_handle handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * multab ) {
 	assert( n_A_vec_byte <= 48*48 );
 
 	__m128i r[48*48/16];
@@ -435,7 +435,7 @@ void gf256mat_prod_multab_sse(unsigned long handle, uint8_t * c , const uint8_t 
 }
 
 
-void gf256mat_prod_add_sse(unsigned long handle, __m128i * r , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * b ) {
+void gf256mat_prod_add_sse(rb_handle handle, __m128i * r , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * b ) {
 
 	ALIGN(32) uint8_t multab[16*16*2];
 	while( 16 < n_A_width ){
@@ -476,7 +476,7 @@ void gf256mat_prod_add_sse(unsigned long handle, __m128i * r , const uint8_t * m
 }
 
 
-void gf256mat_prod_sse(unsigned long handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * b )
+void gf256mat_prod_sse(rb_handle handle, uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byte , unsigned n_A_width , const uint8_t * b )
 {
 	//assert( n_A_vec_byte <= 48*48 );
 
@@ -496,7 +496,7 @@ void gf256mat_prod_sse(unsigned long handle, uint8_t * c , const uint8_t * matA 
 
 
 static
-unsigned _gf256mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned h , unsigned w )
+unsigned _gf256mat_gauss_elim_sse(rb_handle handle, uint8_t * mat , unsigned h , unsigned w )
 {
 	assert( 0 == (w&15) );
 	unsigned n_xmm = w>>4;
@@ -570,7 +570,7 @@ unsigned _gf256mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned
 
 
 
-unsigned gf256mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned h , unsigned w )
+unsigned gf256mat_gauss_elim_sse(rb_handle handle, uint8_t * mat , unsigned h , unsigned w )
 {
 	assert( 512 >= w );
 	assert( 256 >= h );
@@ -589,7 +589,7 @@ unsigned gf256mat_gauss_elim_sse(unsigned long handle, uint8_t * mat , unsigned 
 
 
 
-unsigned int rb_gf256mat_gauss_elim_sse(unsigned long handle, uint8_t* mat, unsigned int h, unsigned int w)
+unsigned int rb_gf256mat_gauss_elim_sse(rb_handle handle, uint8_t* mat, unsigned int h, unsigned int w)
 {
 	return gf256mat_gauss_elim_sse(handle, mat, h, w);
 }

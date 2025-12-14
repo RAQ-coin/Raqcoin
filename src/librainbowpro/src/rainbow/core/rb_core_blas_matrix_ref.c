@@ -12,7 +12,7 @@
 #include <string.h>
 
 
-void rb_gf16mat_prod_ref(unsigned long handle, uint8_t *c, const uint8_t *matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const uint8_t *b) 
+void rb_gf16mat_prod_ref(rb_handle handle, uint8_t *c, const uint8_t *matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const uint8_t *b) 
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -25,7 +25,7 @@ void rb_gf16mat_prod_ref(unsigned long handle, uint8_t *c, const uint8_t *matA, 
     }
 }
 
-void rb_gf256mat_prod_ref(unsigned long handle, uint8_t *c, const uint8_t *matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const uint8_t *b) 
+void rb_gf256mat_prod_ref(rb_handle handle, uint8_t *c, const uint8_t *matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const uint8_t *b) 
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -39,7 +39,7 @@ void rb_gf256mat_prod_ref(unsigned long handle, uint8_t *c, const uint8_t *matA,
 
 
 
-unsigned int rb_gf16mat_gauss_elim_16x32_ref(unsigned long handle, uint8_t* mat) 
+unsigned int rb_gf16mat_gauss_elim_16x32_ref(rb_handle handle, uint8_t* mat) 
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     const unsigned int h = 16;
@@ -66,7 +66,7 @@ unsigned int rb_gf16mat_gauss_elim_16x32_ref(unsigned long handle, uint8_t* mat)
     }
     return r8;
 }
-unsigned int rb_gf16mat_gauss_elim_8x16_ref(unsigned long handle, uint8_t* mat) 
+unsigned int rb_gf16mat_gauss_elim_8x16_ref(rb_handle handle, uint8_t* mat) 
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     const unsigned int h = 8;
@@ -96,7 +96,7 @@ unsigned int rb_gf16mat_gauss_elim_8x16_ref(unsigned long handle, uint8_t* mat)
 
 
 
-unsigned int rb_gf16mat_gauss_elim_ref(unsigned long handle, uint8_t *mat, unsigned int h, unsigned int w)
+unsigned int rb_gf16mat_gauss_elim_ref(rb_handle handle, uint8_t *mat, unsigned int h, unsigned int w)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     const unsigned int w_byte = (w+1)>>1;
@@ -123,7 +123,7 @@ unsigned int rb_gf16mat_gauss_elim_ref(unsigned long handle, uint8_t *mat, unsig
     return r8;
 }
 
-unsigned int rb_gf256mat_gauss_elim_ref(unsigned long handle, uint8_t * mat , unsigned int h , unsigned int w )
+unsigned int rb_gf256mat_gauss_elim_ref(rb_handle handle, uint8_t * mat , unsigned int h , unsigned int w )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int r8 = 1;
@@ -152,7 +152,7 @@ unsigned int rb_gf256mat_gauss_elim_ref(unsigned long handle, uint8_t * mat , un
 }
 
 
-unsigned int rb_gf16mat_solve_linear_eq_48x48_ref(unsigned long handle, uint8_t* sol, const uint8_t* inp_mat, const uint8_t* c_terms)
+unsigned int rb_gf16mat_solve_linear_eq_48x48_ref(rb_handle handle, uint8_t* sol, const uint8_t* inp_mat, const uint8_t* c_terms)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -177,7 +177,7 @@ unsigned int rb_gf16mat_solve_linear_eq_48x48_ref(unsigned long handle, uint8_t*
 }
 
 
-void rb_gf16mat_submat(unsigned long handle, uint8_t *mat2, unsigned int w2, unsigned int st, const uint8_t *mat, unsigned int w, unsigned int h)
+void rb_gf16mat_submat(rb_handle handle, uint8_t *mat2, unsigned int w2, unsigned int st, const uint8_t *mat, unsigned int w, unsigned int h)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int n_byte_w1 = (w + 1) / 2;
@@ -188,7 +188,7 @@ void rb_gf16mat_submat(unsigned long handle, uint8_t *mat2, unsigned int w2, uns
     }
 }
 
-unsigned int rb_gf16mat_inv_8x8_ref(unsigned long handle, uint8_t* inv_a, const uint8_t* a)
+unsigned int rb_gf16mat_inv_8x8_ref(rb_handle handle, uint8_t* inv_a, const uint8_t* a)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 #define  H8 8
@@ -215,7 +215,7 @@ void rb_gf256mat_submat(uint8_t * mat2 , unsigned int w2 , unsigned int st , con
 }
 
 
-unsigned int rb_gf256mat_inv_32x32_ref(unsigned long handle, uint8_t * inv_a , const uint8_t * a )
+unsigned int rb_gf256mat_inv_32x32_ref(rb_handle handle, uint8_t * inv_a , const uint8_t * a )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     #define N32 32
@@ -235,7 +235,7 @@ unsigned int rb_gf256mat_inv_32x32_ref(unsigned long handle, uint8_t * inv_a , c
 }
 
 
-unsigned int rb_gf256mat_solve_linear_eq_64x64_ref(unsigned long handle, uint8_t * sol , const uint8_t * inp_mat , const uint8_t * c_terms )
+unsigned int rb_gf256mat_solve_linear_eq_64x64_ref(rb_handle handle, uint8_t * sol , const uint8_t * inp_mat , const uint8_t * c_terms )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -258,7 +258,7 @@ unsigned int rb_gf256mat_solve_linear_eq_64x64_ref(unsigned long handle, uint8_t
     return r8;
 }
 
-unsigned int rb_gf256mat_solve_linear_eq_96x96_ref(unsigned long handle, uint8_t* sol, const uint8_t* inp_mat, const uint8_t* c_terms)
+unsigned int rb_gf256mat_solve_linear_eq_96x96_ref(rb_handle handle, uint8_t* sol, const uint8_t* inp_mat, const uint8_t* c_terms)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -282,7 +282,7 @@ unsigned int rb_gf256mat_solve_linear_eq_96x96_ref(unsigned long handle, uint8_t
     return r8;
 }
 
-unsigned int rb_gf256mat_inv_8x8_ref(unsigned long handle, uint8_t* inv_a, const uint8_t* a)
+unsigned int rb_gf256mat_inv_8x8_ref(rb_handle handle, uint8_t* inv_a, const uint8_t* a)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 #define H8 8
@@ -301,7 +301,7 @@ unsigned int rb_gf256mat_inv_8x8_ref(unsigned long handle, uint8_t* inv_a, const
     return r8;
 }
 
-unsigned int rb_gf256mat_inv_36x36_ref(unsigned long handle, uint8_t * inv_a , const uint8_t * a )
+unsigned int rb_gf256mat_inv_36x36_ref(rb_handle handle, uint8_t * inv_a , const uint8_t * a )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     #define H36 36
@@ -319,7 +319,7 @@ unsigned int rb_gf256mat_inv_36x36_ref(unsigned long handle, uint8_t * inv_a , c
 
     return r8;
 }
-unsigned int rb_gf256mat_inv_44x44_ref(unsigned long handle, uint8_t* inv_a, const uint8_t* a)
+unsigned int rb_gf256mat_inv_44x44_ref(rb_handle handle, uint8_t* inv_a, const uint8_t* a)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 #define H44 44
@@ -337,7 +337,7 @@ unsigned int rb_gf256mat_inv_44x44_ref(unsigned long handle, uint8_t* inv_a, con
 
     return r8;
 }
-unsigned int rb_gf256mat_inv_72x72_ref(unsigned long handle, uint8_t* inv_a, const uint8_t* a)
+unsigned int rb_gf256mat_inv_72x72_ref(rb_handle handle, uint8_t* inv_a, const uint8_t* a)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 #define H72 72
@@ -356,7 +356,7 @@ unsigned int rb_gf256mat_inv_72x72_ref(unsigned long handle, uint8_t* inv_a, con
     return r8;
 }
 
-unsigned int rb_gf256mat_inv_96x96_ref(unsigned long handle, uint8_t* inv_a, const uint8_t* a)
+unsigned int rb_gf256mat_inv_96x96_ref(rb_handle handle, uint8_t* inv_a, const uint8_t* a)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 #define H96 96

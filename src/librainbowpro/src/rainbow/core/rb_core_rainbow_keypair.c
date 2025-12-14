@@ -20,7 +20,7 @@
 #include "rb_core_utils_prng.h"
 
 
-static void rb_generate_S_T_common(unsigned long handle, rb_sk_t* sk, rb_prng_t* prng0)
+static void rb_generate_S_T_common(rb_handle handle, rb_sk_t* sk, rb_prng_t* prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -31,7 +31,7 @@ static void rb_generate_S_T_common(unsigned long handle, rb_sk_t* sk, rb_prng_t*
 
 
 }
-static void rb_generate_l1_F12_common(unsigned long handle, rb_sk_t* sk, rb_prng_t* prng0)
+static void rb_generate_l1_F12_common(rb_handle handle, rb_sk_t* sk, rb_prng_t* prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -39,7 +39,7 @@ static void rb_generate_l1_F12_common(unsigned long handle, rb_sk_t* sk, rb_prng
     rb_prng_gen(prng0, sk->l1_F2, sk->l1_F2_len, HD->P_HASH_LEN);
 
 }
-static void rb_generate_l2_F12356_common(unsigned long handle, rb_sk_t* sk, rb_prng_t* prng0)
+static void rb_generate_l2_F12356_common(rb_handle handle, rb_sk_t* sk, rb_prng_t* prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -50,13 +50,13 @@ static void rb_generate_l2_F12356_common(unsigned long handle, rb_sk_t* sk, rb_p
     rb_prng_gen(prng0, sk->l2_F6, sk->l2_F6_len, HD->P_HASH_LEN);
 
 }
-static void rb_generate_B1_B2_common(unsigned long handle, rb_sk_t* sk, rb_prng_t* prng0)
+static void rb_generate_B1_B2_common(rb_handle handle, rb_sk_t* sk, rb_prng_t* prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     rb_generate_l1_F12_common(handle,sk, prng0);
     rb_generate_l2_F12356_common(handle,sk, prng0);
 }
-static void rb_generate_S_T(unsigned long handle, unsigned char * s_and_t , rb_prng_t * prng0)
+static void rb_generate_S_T(rb_handle handle, unsigned char * s_and_t , rb_prng_t * prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int size;
@@ -79,7 +79,7 @@ static void rb_generate_S_T(unsigned long handle, unsigned char * s_and_t , rb_p
 }
 
 
-static unsigned int rb_generate_l1_F12(unsigned long handle, unsigned char * sk, rb_prng_t * prng0)
+static unsigned int rb_generate_l1_F12(rb_handle handle, unsigned char * sk, rb_prng_t * prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int n_byte_generated = 0;
@@ -99,7 +99,7 @@ static unsigned int rb_generate_l1_F12(unsigned long handle, unsigned char * sk,
 }
 
 
-static unsigned int rb_generate_l2_F12356(unsigned long handle, unsigned char * sk, rb_prng_t * prng0)
+static unsigned int rb_generate_l2_F12356(rb_handle handle, unsigned char * sk, rb_prng_t * prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int n_byte_generated = 0;
@@ -135,7 +135,7 @@ static unsigned int rb_generate_l2_F12356(unsigned long handle, unsigned char * 
 }
 
 
-static void rb_generate_B1_B2(unsigned long handle, unsigned char * sk , rb_prng_t * prng0)
+static void rb_generate_B1_B2(rb_handle handle, unsigned char * sk , rb_prng_t * prng0)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     sk += rb_generate_l1_F12(handle, sk , prng0 );
@@ -144,7 +144,7 @@ static void rb_generate_B1_B2(unsigned long handle, unsigned char * sk , rb_prng
 
 
 
-static void rb_calculate_t4(unsigned long handle, unsigned char * t2_to_t4 , const unsigned char *t1 , const unsigned char *t3)
+static void rb_calculate_t4(rb_handle handle, unsigned char * t2_to_t4 , const unsigned char *t1 , const unsigned char *t3)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -165,7 +165,7 @@ static void rb_calculate_t4(unsigned long handle, unsigned char * t2_to_t4 , con
 
 
 
-static void rb_obfuscate_l1_polys(unsigned long handle, unsigned char * l1_polys , const unsigned char * l2_polys , unsigned int n_terms , const unsigned char * s1)
+static void rb_obfuscate_l1_polys(rb_handle handle, unsigned char * l1_polys , const unsigned char * l2_polys , unsigned int n_terms , const unsigned char * s1)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned char *temp=(unsigned char *)rb_safe_malloc(HD->P_O1_BYTE + 32);
@@ -183,7 +183,7 @@ static void rb_obfuscate_l1_polys(unsigned long handle, unsigned char * l1_polys
 
 ///////////////////  Classic //////////////////////////////////
 
-static void rb__generate_secretkey(unsigned long handle, rb_sk_t* sk, const unsigned char *sk_seed)
+static void rb__generate_secretkey(rb_handle handle, rb_sk_t* sk, const unsigned char *sk_seed)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     if(sk->sk_seed_len)
@@ -211,7 +211,7 @@ static void rb__generate_secretkey(unsigned long handle, rb_sk_t* sk, const unsi
 
 
 
-int rb_generate_secretkey_cyclic(unsigned long handle, rb_sk_t* sk, const unsigned char* pk_seed, const unsigned char* sk_seed)
+int rb_generate_secretkey_cyclic(rb_handle handle, rb_sk_t* sk, const unsigned char* pk_seed, const unsigned char* sk_seed)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     memcpy(sk->sk_seed, sk_seed, HD->P_LEN_SKSEED);
@@ -275,7 +275,7 @@ int rb_generate_secretkey_cyclic(unsigned long handle, rb_sk_t* sk, const unsign
 }
 
 
-int rb_generate_keypair_cyclic_common(unsigned long handle, rb_cpk_t* pk, rb_sk_t* sk, const unsigned char* pk_seed, const unsigned char* sk_seed)
+int rb_generate_keypair_cyclic_common(rb_handle handle, rb_cpk_t* pk, rb_sk_t* sk, const unsigned char* pk_seed, const unsigned char* sk_seed)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     if(pk->pk_seed_len)
@@ -393,7 +393,7 @@ int rb_generate_keypair_cyclic_common(unsigned long handle, rb_cpk_t* pk, rb_sk_
 }
 
 
-int rb_generate_keypair_cyclic(unsigned long handle, rb_cpk_t * pk, rb_sk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed)
+int rb_generate_keypair_cyclic(rb_handle handle, rb_cpk_t * pk, rb_sk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed)
 {
 
     rb_generate_keypair_cyclic_common(handle,pk, sk, pk_seed, sk_seed);
@@ -403,7 +403,7 @@ int rb_generate_keypair_cyclic(unsigned long handle, rb_cpk_t * pk, rb_sk_t* sk,
 
 
 
-int rb_generate_compact_keypair_cyclic(unsigned long handle, rb_cpk_t * pk, rb_csk_t* rsk, const unsigned char *pk_seed , const unsigned char *sk_seed)
+int rb_generate_compact_keypair_cyclic(rb_handle handle, rb_cpk_t * pk, rb_csk_t* rsk, const unsigned char *pk_seed , const unsigned char *sk_seed)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 

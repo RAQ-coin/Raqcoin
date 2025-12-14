@@ -9,9 +9,9 @@
 #include "rb_core_utils_hash.h"
 #include "rb_core_api.h"
 
-extern unsigned int rainbow_pro_savebuffer_tofile(unsigned long handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format);
+extern unsigned int rainbow_pro_savebuffer_tofile(rb_handle handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format);
 
-int rb_rainbow_sign_common(unsigned long handle, uint8_t* signature, rb_sk_t* sk, uint8_t* _digest)
+int rb_rainbow_sign_common(rb_handle handle, uint8_t* signature, rb_sk_t* sk, uint8_t* _digest)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -293,14 +293,14 @@ int rb_rainbow_sign_common(unsigned long handle, uint8_t* signature, rb_sk_t* sk
 
     return 0;
 }
-int rb_rainbow_sign(unsigned long handle, uint8_t * signature , rb_sk_t * sk , uint8_t * _digest)
+int rb_rainbow_sign(rb_handle handle, uint8_t * signature , rb_sk_t * sk , uint8_t * _digest)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     rb_rainbow_sign_common(handle,signature, sk, _digest);
     return 0;
 }
 
-static unsigned int rb__rainbow_verify(unsigned long handle, uint8_t * digest_hash ,  uint8_t * salt ,  unsigned char * digest_ck)
+static unsigned int rb__rainbow_verify(rb_handle handle, uint8_t * digest_hash ,  uint8_t * salt ,  unsigned char * digest_ck)
 {
 
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -326,8 +326,8 @@ static unsigned int rb__rainbow_verify(unsigned long handle, uint8_t * digest_ha
     }
     if (HD->set_display_debuginfo == 1)
     {
-        rainbow_pro_savebuffer_tofile((unsigned long)HD, NULL, digest_ck, HD->P_PUB_M_BYTE, " Verify_A", 1, 0);
-        rainbow_pro_savebuffer_tofile((unsigned long)HD, NULL, correct, HD->P_PUB_M_BYTE, " Verify_B", 1, 0);
+        rainbow_pro_savebuffer_tofile((rb_handle)HD, NULL, digest_ck, HD->P_PUB_M_BYTE, " Verify_A", 1, 0);
+        rainbow_pro_savebuffer_tofile((rb_handle)HD, NULL, correct, HD->P_PUB_M_BYTE, " Verify_B", 1, 0);
     }
 
     rb_safe_free(correct);
@@ -337,7 +337,7 @@ static unsigned int rb__rainbow_verify(unsigned long handle, uint8_t * digest_ha
 }
 
 
-unsigned int rb_rainbow_sign_cyclic(unsigned long handle, uint8_t *signature , rb_csk_t * csk , uint8_t * digest)
+unsigned int rb_rainbow_sign_cyclic(rb_handle handle, uint8_t *signature , rb_csk_t * csk , uint8_t * digest)
 {
 
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -370,7 +370,7 @@ unsigned int rb_rainbow_sign_cyclic(unsigned long handle, uint8_t *signature , r
     rb_safe_free(temp0);
     return r;
 }
-unsigned int rb_rainbow_verify_cyclic(unsigned long handle, uint8_t * digest_hash ,  uint8_t * signature ,  rb_cpk_t * _pk)
+unsigned int rb_rainbow_verify_cyclic(rb_handle handle, uint8_t * digest_hash ,  uint8_t * signature ,  rb_cpk_t * _pk)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int ret = 0;
@@ -378,8 +378,8 @@ unsigned int rb_rainbow_verify_cyclic(unsigned long handle, uint8_t * digest_has
   
     if (HD->set_display_debuginfo == 1)
     {
-        rainbow_pro_savebuffer_tofile((unsigned long)HD, NULL, digest_hash, HD->P_HASH_LEN, " Verify_HASH", 1, 0);
-        rainbow_pro_savebuffer_tofile((unsigned long)HD, NULL, signature, HD->P_CRYPTO_BYTES, " Verify_SIGN", 1, 0);
+        rainbow_pro_savebuffer_tofile((rb_handle)HD, NULL, digest_hash, HD->P_HASH_LEN, " Verify_HASH", 1, 0);
+        rainbow_pro_savebuffer_tofile((rb_handle)HD, NULL, signature, HD->P_CRYPTO_BYTES, " Verify_SIGN", 1, 0);
     }
     rb_rainbow_publicmap_cpk(handle,digest_ck, _pk, signature);
     ret = rb__rainbow_verify(handle,digest_hash, signature + HD->P_PUB_N_BYTE, digest_ck);

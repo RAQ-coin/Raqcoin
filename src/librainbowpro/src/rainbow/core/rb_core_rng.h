@@ -10,8 +10,8 @@
 #define RNG_BAD_REQ_LEN -3
 
 void rb_AES256_CTR_DRBG_Update(unsigned char *provided_data, unsigned char *Key,unsigned char *V);
-void rb_randombytes_init(unsigned long handle, unsigned char *entropy_input,unsigned char *personalization_string);
-int rb_randombytes(unsigned long handle, unsigned char *x, unsigned int xlen);
+void rb_randombytes_init(rb_handle handle, unsigned char *entropy_input,unsigned char *personalization_string);
+int rb_randombytes(rb_handle handle, unsigned char *x, unsigned int xlen);
 unsigned int rb_getRngBytes(unsigned char* out, unsigned int outlen, void (*callback)(void));
 extern unsigned int (*rb_pqc_rng)(unsigned char* out, unsigned int outlen,void (*callback)(void));
 

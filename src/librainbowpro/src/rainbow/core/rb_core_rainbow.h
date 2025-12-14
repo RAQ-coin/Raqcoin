@@ -11,10 +11,10 @@ extern  "C" {
 #endif
 
 
-int rb_rainbow_sign(unsigned long handle, uint8_t * signature , rb_sk_t * sk , uint8_t * digest);
-int rb_rainbow_sign_common(unsigned long handle, uint8_t* signature, rb_sk_t* sk, uint8_t* digest);
-unsigned int rb_rainbow_sign_cyclic(unsigned long handle, uint8_t * signature , rb_csk_t * sk , uint8_t * digest);
-unsigned int rb_rainbow_verify_cyclic(unsigned long handle, uint8_t * digest_hash ,  uint8_t * signature ,  rb_cpk_t * pk);
+int rb_rainbow_sign(rb_handle handle, uint8_t * signature , rb_sk_t * sk , uint8_t * digest);
+int rb_rainbow_sign_common(rb_handle handle, uint8_t* signature, rb_sk_t* sk, uint8_t* digest);
+unsigned int rb_rainbow_sign_cyclic(rb_handle handle, uint8_t * signature , rb_csk_t * sk , uint8_t * digest);
+unsigned int rb_rainbow_verify_cyclic(rb_handle handle, uint8_t * digest_hash ,  uint8_t * signature ,  rb_cpk_t * pk);
 
  
 #ifdef  __cplusplus

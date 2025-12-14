@@ -4,7 +4,12 @@
 #include "pqcrypto/api.h"
 #include "key.h"
 #include "rainbow18/RAINBOW_PRO_APIs.h"
+#ifdef WIN32
+#include <windows.h>
+#include <rpc.h>
+#else
 #include <uuid/uuid.h>
+#endif
 
 extern int nBestHeight;
 
@@ -50,9 +55,18 @@ void CKey::MakeNewKey(unsigned int config_value)
             pubKey.vchPubKey.resize(pk_size);
 
             char uu_buf[32];
+#ifdef WIN32
+            UUID uuid;
+            UuidCreate(&uuid);
+            snprintf(uu_buf, sizeof(uu_buf), "%08lx%04x%04x%02x%02x%02x%02x%02x%02x%02x%02x",
+                     uuid.Data1, uuid.Data2, uuid.Data3,
+                     uuid.Data4[0], uuid.Data4[1], uuid.Data4[2], uuid.Data4[3],
+                     uuid.Data4[4], uuid.Data4[5], uuid.Data4[6], uuid.Data4[7]);
+#else
             uuid_t uu;
             uuid_generate(uu);
             uuid_unparse(uu, uu_buf);
+#endif
             status = rainbowplus_get_keypair(config_value, 0, (unsigned char *)uu_buf, sizeof(uu_buf), privKey.data(), sk_size, pubKey.vchPubKey.data(), pk_size, NULL, NULL);
             if (status != 1) {
                 throw key_error("CKey::MakeNewKey, rainbowplus_get_keypair failure.");

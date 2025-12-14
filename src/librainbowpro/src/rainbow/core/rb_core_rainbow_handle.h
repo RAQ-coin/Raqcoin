@@ -1,7 +1,7 @@
 #ifndef rb__rainbow_handle_h
 #define rb__rainbow_handle_h
 
-
+#include "rb_core_config.h"
 
 #ifdef  __cplusplus
 extern  "C" {
@@ -109,8 +109,8 @@ typedef struct _RB_CORE_HANDLE
     unsigned int    sizeof_struct_ext_cpk_t;
     unsigned int    member_len_of_ext_cpk_t[12];
 
-    unsigned int (*gfmat_inv)(unsigned long handle,unsigned char*, const unsigned char*);
-    unsigned int (*gfmat_solve_linear_eq)(unsigned long handle, unsigned char*, const unsigned char*, const unsigned char*);
+    unsigned int (*gfmat_inv)(rb_handle handle,unsigned char*, const unsigned char*);
+    unsigned int (*gfmat_solve_linear_eq)(rb_handle handle, unsigned char*, const unsigned char*, const unsigned char*);
 
     unsigned char (*gfv_get_ele)(const unsigned char*, unsigned int);
     void (*gfv_mul_scalar)(unsigned char*, unsigned char, unsigned int);
@@ -119,48 +119,48 @@ typedef struct _RB_CORE_HANDLE
     void (*gf256v_conditional_add)(unsigned char*, unsigned char, const unsigned char*, unsigned int);
     
                        
-    void (*gfmat_prod)(unsigned long handle, unsigned char* c, const unsigned char* , unsigned int , unsigned int , const unsigned char* );
+    void (*gfmat_prod)(rb_handle handle, unsigned char* c, const unsigned char* , unsigned int , unsigned int , const unsigned char* );
 
-    void (*batch_trimat_madd)(unsigned long handle, unsigned char*, const unsigned char*,
+    void (*batch_trimat_madd)(rb_handle handle, unsigned char*, const unsigned char*,
         const unsigned char*, unsigned int, unsigned int, unsigned int, unsigned int);
-    void (*batch_trimatTr_madd)(unsigned long handle, unsigned char*, const unsigned char*,
+    void (*batch_trimatTr_madd)(rb_handle handle, unsigned char*, const unsigned char*,
         const unsigned char*, unsigned int, unsigned int, unsigned int, unsigned int);
-    void (*batch_2trimat_madd)(unsigned long handle, unsigned char*, const unsigned char*,
+    void (*batch_2trimat_madd)(rb_handle handle, unsigned char*, const unsigned char*,
         const unsigned char*, unsigned int, unsigned int, unsigned int, unsigned int);
-    void (*batch_matTr_madd)(unsigned long handle, unsigned char*, const unsigned char*, unsigned int, unsigned int, unsigned int,
+    void (*batch_matTr_madd)(rb_handle handle, unsigned char*, const unsigned char*, unsigned int, unsigned int, unsigned int,
         const unsigned char*, unsigned int, unsigned int);
-    void (*batch_bmatTr_madd)(unsigned long handle, unsigned char*, const unsigned char*, unsigned int,
+    void (*batch_bmatTr_madd)(rb_handle handle, unsigned char*, const unsigned char*, unsigned int,
         const unsigned char*, unsigned int, unsigned int, unsigned int, unsigned int);
-    void (*batch_mat_madd)(unsigned long handle, unsigned char*, const unsigned char*, unsigned int,
+    void (*batch_mat_madd)(rb_handle handle, unsigned char*, const unsigned char*, unsigned int,
         const unsigned char*, unsigned int, unsigned int, unsigned int, unsigned int);
 
-    void (*batch_quad_trimat_eval)(unsigned long handle, unsigned char*, const unsigned char*, const unsigned char*, unsigned int, unsigned int);
-    void (*batch_quad_recmat_eval)(unsigned long handle, unsigned char*, const unsigned char*, unsigned int, const unsigned char*,
+    void (*batch_quad_trimat_eval)(rb_handle handle, unsigned char*, const unsigned char*, const unsigned char*, unsigned int, unsigned int);
+    void (*batch_quad_recmat_eval)(rb_handle handle, unsigned char*, const unsigned char*, unsigned int, const unsigned char*,
         const unsigned char*, unsigned int, unsigned int);
 
 
-    unsigned int(*gf16mat_gauss_elim_8x16_impl)(unsigned long handle, unsigned char* mat);
+    unsigned int(*gf16mat_gauss_elim_8x16_impl)(rb_handle handle, unsigned char* mat);
 
 
-    unsigned int(*gf256mat_gauss_elim_impl)(unsigned long handle, unsigned char* mat, unsigned int h, unsigned int w);
+    unsigned int(*gf256mat_gauss_elim_impl)(rb_handle handle, unsigned char* mat, unsigned int h, unsigned int w);
 
-    void (*gf16mat_prod_impl)(unsigned long handle, unsigned char* c, const unsigned char* matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const unsigned char* b);
-    void (*gf256mat_prod_impl)(unsigned long handle, unsigned char* c, const unsigned char* matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const unsigned char* b);
+    void (*gf16mat_prod_impl)(rb_handle handle, unsigned char* c, const unsigned char* matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const unsigned char* b);
+    void (*gf256mat_prod_impl)(rb_handle handle, unsigned char* c, const unsigned char* matA, unsigned int n_A_vec_byte, unsigned int n_A_width, const unsigned char* b);
 
-    unsigned int (*gf16mat_inv_8x8_impl)(unsigned long handle, unsigned char* inv_a, const unsigned char* a);
+    unsigned int (*gf16mat_inv_8x8_impl)(rb_handle handle, unsigned char* inv_a, const unsigned char* a);
    
-    unsigned int (*gf16mat_solve_linear_eq_48x48_impl)(unsigned long handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
+    unsigned int (*gf16mat_solve_linear_eq_48x48_impl)(rb_handle handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
 
-    unsigned int (*gf256mat_inv_8x8_impl)(unsigned long handle, unsigned char* inv_a, const unsigned char* a);
-    unsigned int (*gf256mat_inv_32x32_impl)(unsigned long handle, unsigned char* inv_a, const unsigned char* a);
-    unsigned int (*gf256mat_inv_36x36_impl)(unsigned long handle, unsigned char* inv_a, const unsigned char* a);
-    unsigned int (*gf256mat_inv_44x44_impl)(unsigned long handle, unsigned char* inv_a, const unsigned char* a);
-    unsigned int (*gf256mat_inv_72x72_impl)(unsigned long handle, unsigned char* inv_a, const unsigned char* a);
-    unsigned int (*gf256mat_inv_96x96_impl)(unsigned long handle, unsigned char* inv_a, const unsigned char* a);
+    unsigned int (*gf256mat_inv_8x8_impl)(rb_handle handle, unsigned char* inv_a, const unsigned char* a);
+    unsigned int (*gf256mat_inv_32x32_impl)(rb_handle handle, unsigned char* inv_a, const unsigned char* a);
+    unsigned int (*gf256mat_inv_36x36_impl)(rb_handle handle, unsigned char* inv_a, const unsigned char* a);
+    unsigned int (*gf256mat_inv_44x44_impl)(rb_handle handle, unsigned char* inv_a, const unsigned char* a);
+    unsigned int (*gf256mat_inv_72x72_impl)(rb_handle handle, unsigned char* inv_a, const unsigned char* a);
+    unsigned int (*gf256mat_inv_96x96_impl)(rb_handle handle, unsigned char* inv_a, const unsigned char* a);
 
-    unsigned int (*gf256mat_solve_linear_eq_48x48_impl)(unsigned long handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
-    unsigned int (*gf256mat_solve_linear_eq_64x64_impl)(unsigned long handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
-    unsigned int (*gf256mat_solve_linear_eq_96x96_impl)(unsigned long handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
+    unsigned int (*gf256mat_solve_linear_eq_48x48_impl)(rb_handle handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
+    unsigned int (*gf256mat_solve_linear_eq_64x64_impl)(rb_handle handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
+    unsigned int (*gf256mat_solve_linear_eq_96x96_impl)(rb_handle handle, unsigned char* sol, const unsigned char* inp_mat, const unsigned char* c_terms);
 
     unsigned char* _sk;
     unsigned char* _pk;
@@ -185,15 +185,15 @@ typedef struct _RB_CORE_HANDLE
 
     rb_AES256_CTR_DRBG_struct  DRBG_ctx;
 
-    unsigned long dili_handle;
-    unsigned long falo_handle;
-    unsigned long sphi_handle;
-    unsigned long secp_handle;
+    rb_handle dili_handle;
+    rb_handle falo_handle;
+    rb_handle sphi_handle;
+    rb_handle secp_handle;
 }RB_CORE_HANDLE;
 
-int rb_crypto_generate_keypair(unsigned long handle,unsigned char *pk, unsigned char *sk);
+int rb_crypto_generate_keypair(rb_handle handle,unsigned char *pk, unsigned char *sk);
 
-int rb_crypto_sign(unsigned long handle, unsigned char *sm, unsigned int *smlen,
+int rb_crypto_sign(rb_handle handle, unsigned char *sm, unsigned int *smlen,
              unsigned char *digest_hash, unsigned int digest_hash_len,
              unsigned char *sk);
 

@@ -9,7 +9,7 @@
 
 
 
-void rb_UpperTrianglize(unsigned long handle, unsigned char * btriC , const unsigned char * bA , unsigned Awidth, unsigned size_batch )
+void rb_UpperTrianglize(rb_handle handle, unsigned char * btriC , const unsigned char * bA , unsigned Awidth, unsigned size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned char * runningC = btriC;
@@ -29,7 +29,7 @@ void rb_UpperTrianglize(unsigned long handle, unsigned char * btriC , const unsi
 
 
 
-void rb_batch_trimat_madd_gf16(unsigned long handle, unsigned char * bC , const unsigned char* btriA ,
+void rb_batch_trimat_madd_gf16(rb_handle handle, unsigned char * bC , const unsigned char* btriA ,
         const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -47,7 +47,7 @@ void rb_batch_trimat_madd_gf16(unsigned long handle, unsigned char * bC , const 
     }
 }
 
-void rb_batch_trimat_madd_gf256(unsigned long handle, unsigned char * bC , const unsigned char* btriA ,
+void rb_batch_trimat_madd_gf256(rb_handle handle, unsigned char * bC , const unsigned char* btriA ,
         const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -69,7 +69,7 @@ void rb_batch_trimat_madd_gf256(unsigned long handle, unsigned char * bC , const
 
 
 
-void rb_batch_trimatTr_madd_gf16(unsigned long handle, unsigned char * bC , const unsigned char* btriA ,
+void rb_batch_trimatTr_madd_gf16(rb_handle handle, unsigned char * bC , const unsigned char* btriA ,
         const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -85,7 +85,7 @@ void rb_batch_trimatTr_madd_gf16(unsigned long handle, unsigned char * bC , cons
     }
 }
 
-void rb_batch_trimatTr_madd_gf256(unsigned long handle, unsigned char * bC , const unsigned char* btriA ,
+void rb_batch_trimatTr_madd_gf256(rb_handle handle, unsigned char * bC , const unsigned char* btriA ,
         const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -104,7 +104,7 @@ void rb_batch_trimatTr_madd_gf256(unsigned long handle, unsigned char * bC , con
 
 
 
-void rb_batch_2trimat_madd_gf16(unsigned long handle, unsigned char * bC , const unsigned char* btriA ,const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
+void rb_batch_2trimat_madd_gf16(rb_handle handle, unsigned char * bC , const unsigned char* btriA ,const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     unsigned int Aheight = Bheight;
@@ -119,7 +119,7 @@ void rb_batch_2trimat_madd_gf16(unsigned long handle, unsigned char * bC , const
     }
 }
 
-void rb_batch_2trimat_madd_gf256(unsigned long handle, unsigned char * bC , const unsigned char* btriA ,
+void rb_batch_2trimat_madd_gf256(rb_handle handle, unsigned char * bC , const unsigned char* btriA ,
         const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int  size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -138,7 +138,7 @@ void rb_batch_2trimat_madd_gf256(unsigned long handle, unsigned char * bC , cons
 
 
 
-void rb_batch_matTr_madd_gf16(unsigned long handle, unsigned char * bC , const unsigned char* A_to_tr , unsigned int Aheight, unsigned int size_Acolvec, unsigned int Awidth,
+void rb_batch_matTr_madd_gf16(rb_handle handle, unsigned char * bC , const unsigned char* A_to_tr , unsigned int Aheight, unsigned int size_Acolvec, unsigned int Awidth,
         const unsigned char* bB, unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -152,7 +152,7 @@ void rb_batch_matTr_madd_gf16(unsigned long handle, unsigned char * bC , const u
     }
 }
 
-void rb_batch_matTr_madd_gf256(unsigned long handle, unsigned char * bC , const unsigned char* A_to_tr , unsigned int Aheight, unsigned int size_Acolvec, unsigned int  Awidth,
+void rb_batch_matTr_madd_gf256(rb_handle handle, unsigned char * bC , const unsigned char* A_to_tr , unsigned int Aheight, unsigned int size_Acolvec, unsigned int  Awidth,
         const unsigned char* bB, unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -169,7 +169,7 @@ void rb_batch_matTr_madd_gf256(unsigned long handle, unsigned char * bC , const 
 
 
 
-void rb_batch_bmatTr_madd_gf16(unsigned long handle, unsigned char *bC , const unsigned char *bA_to_tr, unsigned int Awidth_before_tr,
+void rb_batch_bmatTr_madd_gf16(rb_handle handle, unsigned char *bC , const unsigned char *bA_to_tr, unsigned int Awidth_before_tr,
         const unsigned char *B, unsigned int Bheight, unsigned int size_Bcolvec, unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -185,7 +185,7 @@ void rb_batch_bmatTr_madd_gf16(unsigned long handle, unsigned char *bC , const u
     }
 }
 
-void rb_batch_bmatTr_madd_gf256(unsigned long handle, unsigned char *bC , const unsigned char *bA_to_tr, unsigned int Awidth_before_tr,
+void rb_batch_bmatTr_madd_gf256(rb_handle handle, unsigned char *bC , const unsigned char *bA_to_tr, unsigned int Awidth_before_tr,
         const unsigned char *B, unsigned int Bheight, unsigned int  size_Bcolvec, unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -205,7 +205,7 @@ void rb_batch_bmatTr_madd_gf256(unsigned long handle, unsigned char *bC , const 
 
 
 
-void rb_batch_mat_madd_gf16(unsigned long handle, unsigned char * bC , const unsigned char* bA , unsigned int Aheight,
+void rb_batch_mat_madd_gf16(rb_handle handle, unsigned char * bC , const unsigned char* bA , unsigned int Aheight,
         const unsigned char* B , unsigned int Bheight, unsigned int size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -221,7 +221,7 @@ void rb_batch_mat_madd_gf16(unsigned long handle, unsigned char * bC , const uns
     }
 }
 
-void rb_batch_mat_madd_gf256(unsigned long handle, unsigned char * bC , const unsigned char* bA , unsigned int Aheight,
+void rb_batch_mat_madd_gf256(rb_handle handle, unsigned char * bC , const unsigned char* bA , unsigned int Aheight,
         const unsigned char* B , unsigned int Bheight, unsigned int  size_Bcolvec , unsigned int Bwidth, unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -240,7 +240,7 @@ void rb_batch_mat_madd_gf256(unsigned long handle, unsigned char * bC , const un
 
 
 
-void rb_batch_quad_trimat_eval_gf16(unsigned long handle, unsigned char * y, const unsigned char * trimat, const unsigned char * x, unsigned int dim , unsigned int size_batch )
+void rb_batch_quad_trimat_eval_gf16(rb_handle handle, unsigned char * y, const unsigned char * trimat, const unsigned char * x, unsigned int dim , unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -260,7 +260,7 @@ void rb_batch_quad_trimat_eval_gf16(unsigned long handle, unsigned char * y, con
     }
 }
 
-void rb_batch_quad_trimat_eval_gf256(unsigned long handle, unsigned char * y, const unsigned char * trimat, const unsigned char * x, unsigned int dim , unsigned int size_batch )
+void rb_batch_quad_trimat_eval_gf256(rb_handle handle, unsigned char * y, const unsigned char * trimat, const unsigned char * x, unsigned int dim , unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -286,7 +286,7 @@ void rb_batch_quad_trimat_eval_gf256(unsigned long handle, unsigned char * y, co
 
 
 
-void rb_batch_quad_recmat_eval_gf16(unsigned long handle, unsigned char * z, const unsigned char * y, unsigned int dim_y, const unsigned char * mat,
+void rb_batch_quad_recmat_eval_gf16(rb_handle handle, unsigned char * z, const unsigned char * y, unsigned int dim_y, const unsigned char * mat,
         const unsigned char * x, unsigned int dim_x , unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -310,7 +310,7 @@ void rb_batch_quad_recmat_eval_gf16(unsigned long handle, unsigned char * z, con
 }
 
 
-void rb_batch_quad_recmat_eval_gf256(unsigned long handle, unsigned char * z, const unsigned char * y, unsigned int dim_y, const unsigned char * mat,
+void rb_batch_quad_recmat_eval_gf256(rb_handle handle, unsigned char * z, const unsigned char * y, unsigned int dim_y, const unsigned char * mat,
         const unsigned char * x, unsigned int dim_x , unsigned int size_batch )
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;

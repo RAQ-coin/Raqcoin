@@ -219,8 +219,9 @@ bool AppInit(int argc, char* argv[])
             int ret = CommandLineRPC(argc, argv);
             exit(ret);
         }
-#if !defined(WIN32)
+
         fDaemon = GetBoolArg("-daemon");
+#if !defined(WIN32)
         if (fDaemon)
         {
             // Daemonize
@@ -240,6 +241,12 @@ bool AppInit(int argc, char* argv[])
             pid_t sid = setsid();
             if (sid < 0)
                 fprintf(stderr, "Error: setsid() returned %d errno %d\n", sid, errno);
+        }
+#else
+        // Windows: Just continue running, output will be redirected to debug.log
+        if (fDaemon)
+        {
+            fprintf(stderr, "Raqcoin daemon started. Output redirected to debug.log\n");
         }
 #endif
 
@@ -353,7 +360,7 @@ std::string HelpMessage()
 #ifdef QT_GUI
         "  -server                " + _("Accept command line and JSON-RPC commands") + "\n" +
 #endif
-#if !defined(WIN32) && !defined(QT_GUI)
+#if !defined(QT_GUI)
         "  -daemon                " + _("Run in the background as a daemon and accept commands") + "\n" +
 #endif
         "  -testnet               " + _("Use the test network") + "\n" +

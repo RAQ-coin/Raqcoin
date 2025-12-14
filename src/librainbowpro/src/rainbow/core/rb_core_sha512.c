@@ -491,10 +491,10 @@ int rb_SHA384_Final(rb_SHA512_CTX* c, unsigned char* md)
 
 
 
-unsigned int rainbow_pro_sha384_init(unsigned long* hash_handle)
+unsigned int rainbow_pro_sha384_init(rb_handle* hash_handle)
 {
-    unsigned long temp = 0;
-    temp = (unsigned long)rb_safe_malloc(sizeof(rb_SHA512_CTX));
+    rb_handle temp = 0;
+    temp = (rb_handle)rb_safe_malloc(sizeof(rb_SHA512_CTX));
     if (temp == 0)
         return 0;
     rb_SHA512_CTX* sha384 = (rb_SHA512_CTX*)temp;
@@ -502,11 +502,11 @@ unsigned int rainbow_pro_sha384_init(unsigned long* hash_handle)
 
     rb_SHA384_Init(sha384);
 
-    *hash_handle = (unsigned long)temp;
+    *hash_handle = (rb_handle)temp;
 
     return 1;
 }
-unsigned int rainbow_pro_sha384_update(unsigned long hash_handle, unsigned char* data, unsigned int len)
+unsigned int rainbow_pro_sha384_update(rb_handle hash_handle, unsigned char* data, unsigned int len)
 {
     rb_SHA512_CTX* sha384 = (rb_SHA512_CTX*)hash_handle;
 
@@ -514,7 +514,7 @@ unsigned int rainbow_pro_sha384_update(unsigned long hash_handle, unsigned char*
 
     return 1;
 }
-unsigned int rainbow_pro_sha384_final(unsigned long hash_handle, unsigned char* hash_digest)
+unsigned int rainbow_pro_sha384_final(rb_handle hash_handle, unsigned char* hash_digest)
 {
     rb_SHA512_CTX* sha384 = (rb_SHA512_CTX*)hash_handle;
     rb_SHA384_Final(sha384, hash_digest);
@@ -525,10 +525,10 @@ unsigned int rainbow_pro_sha384_final(unsigned long hash_handle, unsigned char* 
 }
 
 
-unsigned int rainbow_pro_sha512_init(unsigned long* hash_handle)
+unsigned int rainbow_pro_sha512_init(rb_handle* hash_handle)
 {
-    unsigned long temp = 0;
-    temp = (unsigned long)rb_safe_malloc(sizeof(rb_SHA512_CTX));
+    rb_handle temp = 0;
+    temp = (rb_handle)rb_safe_malloc(sizeof(rb_SHA512_CTX));
     if (temp == 0)
         return 0;
     rb_SHA512_CTX* sha512 = (rb_SHA512_CTX*)temp;
@@ -536,11 +536,11 @@ unsigned int rainbow_pro_sha512_init(unsigned long* hash_handle)
 
     rb_SHA512_Init(sha512);
 
-    *hash_handle = (unsigned long)temp;
+    *hash_handle = (rb_handle)temp;
 
     return 1;
 }
-unsigned int rainbow_pro_sha512_update(unsigned long hash_handle, unsigned char* data, unsigned int len)
+unsigned int rainbow_pro_sha512_update(rb_handle hash_handle, unsigned char* data, unsigned int len)
 {
     rb_SHA512_CTX* sha512 = (rb_SHA512_CTX*)hash_handle;
 
@@ -548,7 +548,7 @@ unsigned int rainbow_pro_sha512_update(unsigned long hash_handle, unsigned char*
 
     return 1;
 }
-unsigned int rainbow_pro_sha512_final(unsigned long hash_handle, unsigned char* hash_digest)
+unsigned int rainbow_pro_sha512_final(rb_handle hash_handle, unsigned char* hash_digest)
 {
     rb_SHA512_CTX* sha512 = (rb_SHA512_CTX*)hash_handle;
     rb_SHA512_Final(sha512, hash_digest);

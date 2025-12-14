@@ -28,9 +28,9 @@
 
 
 
-extern void rb_add_str001(unsigned long handle, char* str1, char* str2);
+extern void rb_add_str001(rb_handle handle, char* str1, char* str2);
 
-unsigned int rainbow_pro_signconfig_tobuffer(unsigned long handle)
+unsigned int rainbow_pro_signconfig_tobuffer(rb_handle handle)
 {
 
 
@@ -110,11 +110,11 @@ extern int rb_get_cpu_support();
 extern rb_cpu_s rb_cpu_su;
 #endif
 
-unsigned int rainbow_pro_init(unsigned long* handle, unsigned int  type, unsigned int  subtype, unsigned int set_display_debuginfo, unsigned int set_no_salt, unsigned int *sk_size, unsigned int *pk_size,unsigned int *hash_size, unsigned int *sign_size )
+unsigned int rainbow_pro_init(rb_handle* handle, unsigned int  type, unsigned int  subtype, unsigned int set_display_debuginfo, unsigned int set_no_salt, unsigned int *sk_size, unsigned int *pk_size,unsigned int *hash_size, unsigned int *sign_size )
 {
 	unsigned int ret = 0;
-	unsigned long hd_temp = 0;
-	hd_temp=(unsigned long)rb_safe_malloc(sizeof(RB_CORE_HANDLE));
+	rb_handle hd_temp = 0;
+	hd_temp=(rb_handle)rb_safe_malloc(sizeof(RB_CORE_HANDLE));
 	RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)hd_temp;
 	
 	if (HD == NULL)
@@ -511,7 +511,7 @@ unsigned int rainbow_pro_init(unsigned long* handle, unsigned int  type, unsigne
 
 		}
 
-		*handle = (unsigned long)HD;
+		*handle = (rb_handle)HD;
 
 
 
@@ -545,7 +545,7 @@ unsigned int rainbow_pro_init(unsigned long* handle, unsigned int  type, unsigne
 
 
 
-unsigned int rainbow_pro_genkey(unsigned long handle, unsigned int set_display_debuginfo, unsigned char* seed, unsigned int seed_len, unsigned char** Private_Key, unsigned int* Private_Key_Len, unsigned char** Public_Key, unsigned int* Public_Key_Len, unsigned char** Hash_of_Private_Key, unsigned char** Hash_of_Public_Key)
+unsigned int rainbow_pro_genkey(rb_handle handle, unsigned int set_display_debuginfo, unsigned char* seed, unsigned int seed_len, unsigned char** Private_Key, unsigned int* Private_Key_Len, unsigned char** Public_Key, unsigned int* Public_Key_Len, unsigned char** Hash_of_Private_Key, unsigned char** Hash_of_Public_Key)
 {
 	unsigned int ret = 0;
 	RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -630,7 +630,7 @@ unsigned int rainbow_pro_readfilebyte_to_onebuffer(unsigned char** msg, unsigned
 	return ret;
 }
 extern int rb_hash_msg(unsigned char* digest, unsigned int len_digest, const unsigned char* m, unsigned int mlen, unsigned int P_HASH_LEN);
-unsigned int rainbow_pro_digest_hash(unsigned long handle, unsigned int set_display_debuginfo, unsigned char* m, unsigned int mlen, unsigned char** digest_hash, unsigned int* digest_hash_len)
+unsigned int rainbow_pro_digest_hash(rb_handle handle, unsigned int set_display_debuginfo, unsigned char* m, unsigned int mlen, unsigned char** digest_hash, unsigned int* digest_hash_len)
 {
 	int ret = 0;
 	RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -660,7 +660,7 @@ unsigned int rainbow_pro_digest_hash(unsigned long handle, unsigned int set_disp
 		ret = 0;
 	return ret;
 }
-void rb_add_str001(unsigned long handle, char* str1, char* str2)
+void rb_add_str001(rb_handle handle, char* str1, char* str2)
 {
 	RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 	int j = 0;
@@ -672,7 +672,7 @@ void rb_add_str001(unsigned long handle, char* str1, char* str2)
 
 	return;
 }
-unsigned int rainbow_pro_savebuffer_tofile(unsigned long handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format)
+unsigned int rainbow_pro_savebuffer_tofile(rb_handle handle, char* filename, unsigned char* buffer, unsigned int buffer_size, char* dataname, int mode, int format)
 {
 
 	FILE* fp = NULL;
@@ -794,7 +794,7 @@ unsigned int rainbow_pro_savebuffer_tofile(unsigned long handle, char* filename,
 	return ret;
 
 }
-unsigned int rainbow_pro_uninit(unsigned long handle)
+unsigned int rainbow_pro_uninit(rb_handle handle)
 {
 	unsigned int ret = 0;
 	RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;

@@ -13,8 +13,8 @@ extern  "C" {
 #endif
 
 
-int rb_crypto_generate_keypair(unsigned long handle, unsigned char *pk, unsigned char *sk);
-int rb_crypto_sign(unsigned long handle, unsigned char* sm, unsigned int* smlen, unsigned char* digest_hash, unsigned int digest_hash_len, unsigned char* sk);
+int rb_crypto_generate_keypair(rb_handle handle, unsigned char *pk, unsigned char *sk);
+int rb_crypto_sign(rb_handle handle, unsigned char* sm, unsigned int* smlen, unsigned char* digest_hash, unsigned int digest_hash_len, unsigned char* sk);
 
 #ifdef  __cplusplus
 }

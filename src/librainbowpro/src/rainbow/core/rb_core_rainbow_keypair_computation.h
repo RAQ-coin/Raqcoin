@@ -11,8 +11,8 @@ extern  "C" {
 
 #include "rb_core_rng.h" 
 
-void rb_calculate_F_from_Q(unsigned long handle, rb_sk_t * Fs , const rb_sk_t * Qs , const rb_sk_t * Ts);
-void rb_calculate_Q_from_F_cyclic(unsigned long handle, rb_cpk_t * Qs, const rb_sk_t * Fs , const rb_sk_t * Ts);
+void rb_calculate_F_from_Q(rb_handle handle, rb_sk_t * Fs , const rb_sk_t * Qs , const rb_sk_t * Ts);
+void rb_calculate_Q_from_F_cyclic(rb_handle handle, rb_cpk_t * Qs, const rb_sk_t * Fs , const rb_sk_t * Ts);
 
 
 #ifdef  __cplusplus

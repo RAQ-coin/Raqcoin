@@ -93,11 +93,11 @@ typedef struct rb_rainbow_secretkey_cyclic
 
 
 
-int rb_generate_keypair_cyclic_common(unsigned long handle, rb_cpk_t * pk, rb_sk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed);
-int rb_generate_keypair_cyclic(unsigned long handle, rb_cpk_t* pk, rb_sk_t* sk, const unsigned char* pk_seed, const unsigned char* sk_seed);
-int rb_generate_compact_keypair_cyclic(unsigned long handle, rb_cpk_t * pk, rb_csk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed);
-int rb_generate_secretkey_cyclic(unsigned long handle, rb_sk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed);
-void rb_rainbow_publicmap_cpk(unsigned long handle, unsigned char * z, const rb_cpk_t * pk, const unsigned char *w);
+int rb_generate_keypair_cyclic_common(rb_handle handle, rb_cpk_t * pk, rb_sk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed);
+int rb_generate_keypair_cyclic(rb_handle handle, rb_cpk_t* pk, rb_sk_t* sk, const unsigned char* pk_seed, const unsigned char* sk_seed);
+int rb_generate_compact_keypair_cyclic(rb_handle handle, rb_cpk_t * pk, rb_csk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed);
+int rb_generate_secretkey_cyclic(rb_handle handle, rb_sk_t* sk, const unsigned char *pk_seed , const unsigned char *sk_seed);
+void rb_rainbow_publicmap_cpk(rb_handle handle, unsigned char * z, const rb_cpk_t * pk, const unsigned char *w);
 
 
 

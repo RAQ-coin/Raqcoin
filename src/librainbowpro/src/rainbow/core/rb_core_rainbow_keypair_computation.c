@@ -30,7 +30,7 @@
 
 
 /////////////////////////////////////////////////////
-static void rb_calculate_F_from_Q_ref_common(unsigned long handle, rb_sk_t* Fs, const rb_sk_t* Qs, const rb_sk_t* Ts)
+static void rb_calculate_F_from_Q_ref_common(rb_handle handle, rb_sk_t* Fs, const rb_sk_t* Qs, const rb_sk_t* Ts)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
  
@@ -106,7 +106,7 @@ static void rb_calculate_F_from_Q_ref_common(unsigned long handle, rb_sk_t* Fs, 
 
     rb_safe_free(tempQ);
 }
-static void rb_calculate_F_from_Q_ref(unsigned long handle, rb_sk_t * Fs , const rb_sk_t * Qs , const rb_sk_t * Ts)
+static void rb_calculate_F_from_Q_ref(rb_handle handle, rb_sk_t * Fs , const rb_sk_t * Qs , const rb_sk_t * Ts)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -114,7 +114,7 @@ static void rb_calculate_F_from_Q_ref(unsigned long handle, rb_sk_t * Fs , const
 }
 
 
-static void rb_calculate_Q_from_F_cyclic_ref_common(unsigned long handle, rb_cpk_t* Qs, const rb_sk_t* Fs, const rb_sk_t* Ts)
+static void rb_calculate_Q_from_F_cyclic_ref_common(rb_handle handle, rb_cpk_t* Qs, const rb_sk_t* Fs, const rb_sk_t* Ts)
 {
 
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
@@ -227,7 +227,7 @@ static void rb_calculate_Q_from_F_cyclic_ref_common(unsigned long handle, rb_cpk
     rb_safe_free(buffer_F3);
 }
 
-static void rb_calculate_Q_from_F_cyclic_ref(unsigned long handle, rb_cpk_t * Qs, const rb_sk_t * Fs , const rb_sk_t * Ts)
+static void rb_calculate_Q_from_F_cyclic_ref(rb_handle handle, rb_cpk_t * Qs, const rb_sk_t * Fs , const rb_sk_t * Ts)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
 
@@ -242,7 +242,7 @@ static void rb_calculate_Q_from_F_cyclic_ref(unsigned long handle, rb_cpk_t * Qs
 
 
 
-void rb_calculate_F_from_Q(unsigned long handle, rb_sk_t * Fs , const rb_sk_t * Qs , const rb_sk_t * Ts)
+void rb_calculate_F_from_Q(rb_handle handle, rb_sk_t * Fs , const rb_sk_t * Qs , const rb_sk_t * Ts)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     calculate_F_from_Q_impl(handle, Fs , Qs , Ts);
@@ -251,7 +251,7 @@ void rb_calculate_F_from_Q(unsigned long handle, rb_sk_t * Fs , const rb_sk_t * 
 
 
 
-void rb_calculate_Q_from_F_cyclic(unsigned long handle, rb_cpk_t * Qs, const rb_sk_t * Fs , const rb_sk_t * Ts)
+void rb_calculate_Q_from_F_cyclic(rb_handle handle, rb_cpk_t * Qs, const rb_sk_t * Fs , const rb_sk_t * Ts)
 {
     RB_CORE_HANDLE* HD = (RB_CORE_HANDLE*)handle;
     calculate_Q_from_F_cyclic_impl(handle, Qs , Fs , Ts);

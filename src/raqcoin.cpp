@@ -12,8 +12,10 @@ int main(int argc, char* argv[])
 
     fRet = AppInit(argc, argv);
 
+#if !defined(WIN32)
     if (fRet && fDaemon)
         return 0;
+#endif
 
     return (fRet ? 0 : 1);
 }

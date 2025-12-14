@@ -370,10 +370,10 @@ void rb_SHA256Final(rb_SHA256_CTX* sc, uint8_t hash[rb_SHA256_HASH_SIZE])
     }
 }
 
-unsigned int rainbow_pro_sha256_init(unsigned long *hash_handle)
+unsigned int rainbow_pro_sha256_init(rb_handle *hash_handle)
 {
-    unsigned long temp = 0;
-    temp = (unsigned long)rb_safe_malloc(sizeof(rb_SHA256_CTX));
+    rb_handle temp = 0;
+    temp = (rb_handle)rb_safe_malloc(sizeof(rb_SHA256_CTX));
     if (temp == 0)
         return 0;
     rb_SHA256_CTX* sha256 = (rb_SHA256_CTX*)temp;
@@ -381,11 +381,11 @@ unsigned int rainbow_pro_sha256_init(unsigned long *hash_handle)
 
     rb_SHA256Init(sha256);
 
-    *hash_handle = (unsigned long)temp;
+    *hash_handle = (rb_handle)temp;
 
     return 1;
 }
-unsigned int rainbow_pro_sha256_update(unsigned long hash_handle, unsigned char *data, unsigned int len)
+unsigned int rainbow_pro_sha256_update(rb_handle hash_handle, unsigned char *data, unsigned int len)
 {
     rb_SHA256_CTX* sha256 = (rb_SHA256_CTX*)hash_handle;
 
@@ -393,7 +393,7 @@ unsigned int rainbow_pro_sha256_update(unsigned long hash_handle, unsigned char 
 
     return 1;
 }
-unsigned int rainbow_pro_sha256_final(unsigned long hash_handle, unsigned char *hash_digest)
+unsigned int rainbow_pro_sha256_final(rb_handle hash_handle, unsigned char *hash_digest)
 {
     rb_SHA256_CTX* sha256 = (rb_SHA256_CTX*)hash_handle;
     rb_SHA256Final(sha256, hash_digest);
