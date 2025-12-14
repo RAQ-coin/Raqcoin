@@ -1,8 +1,0 @@
-pqcrypto/sign.o: pqcrypto/sign.cpp pqcrypto/rainbow_config.h \
-  pqcrypto/rainbow_16.h pqcrypto/blas.h pqcrypto/random.h \
-  pqcrypto/gf16.h pqcrypto/blas_config.h pqcrypto/blas_u64.h \
-  pqcrypto/mpkc.h pqcrypto/hash_utils.h pqcrypto/hash_len_config.h
-pqcrypto/sign.cpp pqcrypto/rainbow_config.h :
-  pqcrypto/rainbow_16.h pqcrypto/blas.h pqcrypto/random.h :
-  pqcrypto/gf16.h pqcrypto/blas_config.h pqcrypto/blas_u64.h :
-  pqcrypto/mpkc.h pqcrypto/hash_utils.h pqcrypto/hash_len_config.h :

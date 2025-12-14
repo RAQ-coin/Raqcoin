@@ -1,2 +1,0 @@
-pqcrypto/ctaes.o: pqcrypto/ctaes.cpp pqcrypto/ctaes.h
-pqcrypto/ctaes.cpp pqcrypto/ctaes.h :

@@ -1,2 +1,0 @@
-pqcrypto/rijndael_tab.o: pqcrypto/rijndael_tab.cpp
-pqcrypto/rijndael_tab.cpp :
