@@ -16,6 +16,19 @@ software which enables the use of this currency.
 For more information, as well as an immediately useable, binary version of
 the RaqcoinCore client software, see www.Raqcoin.info
 
+Configuration
+-------------
+
+Before starting the application, you need to create a configuration file `raqcoin.conf` in the default data directory:
+
+- **Linux**: `~/.abc/raqcoin.conf`
+- **macOS**: `~/Library/Application Support/abc/raqcoin.conf`
+- **Windows**: `%APPDATA%\abc\raqcoin.conf` (typically `C:\Users\YourUsername\AppData\Roaming\abc\raqcoin.conf`)
+
+You can find a configuration file example at [contrib/debian/examples/raqcoin.conf](contrib/debian/examples/raqcoin.conf).
+
+Alternatively, you can specify a custom data directory using the `-datadir` parameter or a custom configuration file using the `-conf` parameter when starting the application.
+
 License
 -------
 
