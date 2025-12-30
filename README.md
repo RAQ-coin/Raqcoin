@@ -148,7 +148,7 @@ match the project's coding conventions (see `doc/coding.md`) or are
 controversial.
 
 The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/abcmint/abcmint/tags) are created
+completely stable. [Tags](https://github.com/RAQ-coin/Raqcoin/tags) are created
 regularly to indicate new official, stable release versions of Raqcoin.
 
 Testing
@@ -170,14 +170,14 @@ Unit tests for the GUI code are in `src/qt/test/`. To compile and run them:
 Every pull request is built for both Windows and Linux on a dedicated server,
 and unit and sanity tests are automatically run. The binaries produced may be
 used for manual QA testing — a link to them will appear in a comment on the
-pull request posted by (https://github.com/RAQ-coin/). See https://github.com/RAQ-coin/test-scripts
-for the build/test scripts.
+pull request posted by (https://github.com/RAQ-coin/). See https://github.com/RAQ-coin/Raqcoin-test
+for the build/Raqcoin-test.
 
 ### Manual Quality Assurance (QA) Testing
 Large changes should have a test plan, and should be tested by somebody other
 than the developer who wrote the code.
 
-See https://github.com/RAQ-coin/QA/ for how to create a test plan.
+See https://github.com/RAQ-coin/Raqcoin/QA/ for how to create a test plan.
 
 ### Mining Algorithm Using GPU 
 A new program that can be used to do ABC mining on a GPU is recently release at
