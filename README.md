@@ -177,7 +177,7 @@ for the build/Raqcoin-test.
 Large changes should have a test plan, and should be tested by somebody other
 than the developer who wrote the code.
 
-See https://github.com/RAQ-coin/Raqcoin/QA/ for how to create a test plan.
+See https://github.com/RAQ-coin/Raqcoin-Test/tree/main/QA/ for how to create a test plan.
 
 ### Mining Algorithm Using GPU 
 A new program that can be used to do ABC mining on a GPU is recently release at
