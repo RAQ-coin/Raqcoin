@@ -113,8 +113,25 @@ static void handleRunawayException(std::exception *e)
 }
 
 #ifndef RAQCOIN_QT_TEST
+#ifdef WIN32
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0500
+#endif
+#include <windows.h>
+#endif
+
 int main(int argc, char *argv[])
 {
+#ifdef WIN32
+    // Hide the console window immediately.
+    // We use CONFIG += console to ensure valid stdout/stderr handles (preventing library crashes),
+    // but we hide the window to look like a GUI app.
+    HWND hwnd = GetConsoleWindow();
+    if (hwnd != NULL) {
+        ShowWindow(hwnd, SW_HIDE);
+    }
+#endif
+
     // Command-line options take precedence:
     ParseParameters(argc, argv);
 #if QT_VERSION < 0x050000

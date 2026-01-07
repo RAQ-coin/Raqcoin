@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = raqcoin-qt
 macx:TARGET = "Raqcoin-Qt"
-VERSION = 0.8.6
+VERSION = 0.1.0
 INCLUDEPATH += src src/json src/qt
 QT += network
 QT += core
@@ -11,8 +11,30 @@ DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
 CONFIG += no_include_pwd
 CONFIG += thread
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets 
 CONFIG += -static
-#QMAKE_CFLAGS_ISYSTEM = -I
+
+# Default build configuration for Windows/Cross-compile
+win32 {
+    isEmpty(USE_QRCODE) {
+        USE_QRCODE = 1
+    }
+    isEmpty(USE_UPNP) {
+        USE_UPNP = 1
+    }
+    isEmpty(USE_IPV6) {
+        USE_IPV6 = 1
+    }
+    # Disable GPU mining by default as requested
+    isEmpty(USE_GPU) {
+        USE_GPU = -
+    }
+    isEmpty(RELEASE) {
+        RELEASE = 1
+    }
+    # Fix for system include paths
+    QMAKE_CFLAGS_ISYSTEM = -I
+}
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt
 # for boost thread win32 with _win32 sufix
@@ -32,11 +54,26 @@ BOOST_LIB_SUFFIX=
 #MINIUPNPC_INCLUDE_PATH=/home/tao/deps/miniupnp
 #MINIUPNPC_LIB_PATH=/home/tao/deps/miniupnp/miniupnpc
 
-BOOST_LIB_PATH=/usr/lib/x86_64-linux-gnu
-BDB_LIB_PATH=/usr/lib/x86_64-linux-gnu
-OPENSSL_LIB_PATH=/usr/lib/x86_64-linux-gnu
-MINIUPNPC_LIB_PATH=/usr/lib/x86_64-linux-gnu
-UUID_LIB_PATH=/usr/lib/x86_64-linux-gnu
+
+!win32 {
+    BOOST_LIB_PATH=/usr/lib/x86_64-linux-gnu
+    BDB_LIB_PATH=/usr/lib/x86_64-linux-gnu
+    OPENSSL_LIB_PATH=/usr/lib/x86_64-linux-gnu
+    MINIUPNPC_LIB_PATH=/usr/lib/x86_64-linux-gnu
+    UUID_LIB_PATH=/usr/lib/x86_64-linux-gnu
+}
+win32 {
+    MXE_PATH=/usr/lib/mxe/usr/x86_64-w64-mingw32.static
+    BOOST_LIB_PATH=$$MXE_PATH/lib
+    BDB_LIB_PATH=$$MXE_PATH/lib
+    OPENSSL_LIB_PATH=$$MXE_PATH/lib
+    MINIUPNPC_LIB_PATH=$$MXE_PATH/lib
+    UUID_LIB_PATH=$$MXE_PATH/lib
+    QRENCODE_INCLUDE_PATH=$$MXE_PATH/include
+    QRENCODE_LIB_PATH=$$MXE_PATH/lib
+    BOOST_LIB_SUFFIX=-mt
+    BOOST_THREAD_LIB_SUFFIX=_win32-mt
+}
 #QRENCODE_INCLUDE_PATH=/usr/include
 #QRENCODE_LIB_PATH=/usr/lib/x86_64-linux-gnu
 #PNG_LIB_PATH=/usr/lib/x86_64-linux-gnu
@@ -72,7 +109,13 @@ QMAKE_CXXFLAGS *= -D_FORTIFY_SOURCE=2
 # for extra security on Windows: enable ASLR and DEP via GCC linker flags
 win32:QMAKE_LFLAGS *= -Wl,--dynamicbase -Wl,--nxcompat
 # on Windows: enable GCC large address aware linker flag
-win32:QMAKE_LFLAGS *= -std=c++11 -Wl,--large-address-aware static
+win32:QMAKE_LFLAGS *= -std=c++11 -static
+CONFIG += console
+win32:QMAKE_LFLAGS -= -Wl,--gc-sections
+win32:QMAKE_LFLAGS_RELEASE -= -Wl,--gc-sections
+win32:QMAKE_LFLAGS -= -Wl,-s
+win32:QMAKE_LFLAGS_RELEASE -= -Wl,-s
+
 
 contains(USE_ZMQ, 1) {
     message(Building with ZMQ support)
@@ -90,22 +133,25 @@ contains(USE_ZMQ, 1) {
 
 contains(USE_ASSEMBLY, 1) {
     message(Building with assembly support)
-    LIBS += $$PWD/src/rainbow18/librainbowpro_unix.a
+    !win32:LIBS += $$PWD/src/rainbow18/librainbowpro_unix.a
+    win32:LIBS += $$PWD/src/rainbow18/librainbowpro_win.a
 } else {
     message(Building with Non-assembly support)
-    LIBS += $$PWD/src/rainbow18/librainbowpro_unix_p.a
+    !win32:LIBS += $$PWD/src/rainbow18/librainbowpro_unix_p.a
+    win32:LIBS += $$PWD/src/rainbow18/librainbowpro_win.a
     TARGET = raqcoin-qt-p
 }
 
 # use: qmake "USE_QRCODE=1"
 # libqrencode (http://fukuchi.org/works/qrencode/index.en.html) must be installed for support
-#contains(USE_QRCODE, 1) {
-#    message(Building with QRCode support)
-#    DEFINES += USE_QRCODE
-#    INCLUDEPATH += $$QRENCODE_INCLUDE_PATH
-#    LIBS += $$QRENCODE_LIB_PATH/libqrencode.a
-##    LIBS += -lqrencode
-#}
+# use: qmake "USE_QRCODE=1"
+# libqrencode (http://fukuchi.org/works/qrencode/index.en.html) must be installed for support
+contains(USE_QRCODE, 1) {
+    message(Building with QRCode support)
+    DEFINES += USE_QRCODE
+    INCLUDEPATH += $$QRENCODE_INCLUDE_PATH
+    LIBS += -L$$QRENCODE_LIB_PATH -lqrencode
+}
 
 # use: qmake "USE_UPNP=1" ( enabled by default; default)
 #  or: qmake "USE_UPNP=0" (disabled by default)
@@ -184,7 +230,7 @@ LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
         QMAKE_RANLIB = $$replace(QMAKE_STRIP, strip, ranlib)
     }
     LIBS += -lshlwapi
-    genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX TARGET_OS=OS_WINDOWS_CROSSCOMPILE $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a && $$QMAKE_RANLIB $$PWD/src/leveldb/libleveldb.a && $$QMAKE_RANLIB $$PWD/src/leveldb/libmemenv.a
+    genleveldb.commands = cd $$PWD/src/leveldb && dos2unix build_detect_platform && CC=$$QMAKE_CC CXX=$$QMAKE_CXX TARGET_OS=OS_WINDOWS_CROSSCOMPILE $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a && $$QMAKE_RANLIB $$PWD/src/leveldb/libleveldb.a && $$QMAKE_RANLIB $$PWD/src/leveldb/libmemenv.a
 }
 genleveldb.target = $$PWD/src/leveldb/libleveldb.a
 genleveldb.depends = FORCE
@@ -418,11 +464,11 @@ FORMS += src/qt/forms/sendcoinsdialog.ui \
     src/qt/forms/rpcconsole.ui \
     src/qt/forms/optionsdialog.ui
 
-#contains(USE_QRCODE, 1) {
-#HEADERS += src/qt/qrcodedialog.h
-#SOURCES += src/qt/qrcodedialog.cpp
-#FORMS += src/qt/forms/qrcodedialog.ui
-#}
+contains(USE_QRCODE, 1) {
+    HEADERS += src/qt/qrcodedialog.h
+    SOURCES += src/qt/qrcodedialog.cpp
+    FORMS += src/qt/forms/qrcodedialog.ui
+}
 
 contains(RAQCOIN_QT_TEST, 1) {
 SOURCES += src/qt/test/test_main.cpp \
@@ -442,7 +488,7 @@ CODECFORTR = UTF-8
 TRANSLATIONS = $$files(src/qt/locale/raqcoin_*.ts)
 #QMAKE_LRELEASE = /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease
 isEmpty(QMAKE_LRELEASE) {
-    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\\lrelease.exe
+    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
     else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
 }
 isEmpty(QM_DIR):QM_DIR = $$PWD/src/qt/locale
@@ -534,16 +580,25 @@ INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$
 #LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 #LIBS += -lssl -lcrypto  -ldb_cxx
 # -lgdi32 has to happen after -lcrypto (see  #681)
-win32:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
+win32:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32 -liphlpapi -lrpcrt4
 #LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
 win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
+win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
 macx:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
-LIBS += $$BOOST_LIB_PATH/libboost_system.a  $$BOOST_LIB_PATH/libboost_filesystem.a  $$BOOST_LIB_PATH/libboost_program_options.a
-LIBS += $$BOOST_LIB_PATH/libboost_thread.a  $$BOOST_LIB_PATH/libboost_chrono.a
-LIBS += $$BDB_LIB_PATH/libdb_cxx.a
-LIBS += $$OPENSSL_LIB_PATH/libssl.a  $$OPENSSL_LIB_PATH/libcrypto.a
-#LIBS += $$PNG_LIB_PATH/libpng.a
-LIBS += $$UUID_LIB_PATH/libuuid.a
+
+!win32 {
+    LIBS += $$BOOST_LIB_PATH/libboost_system.a  $$BOOST_LIB_PATH/libboost_filesystem.a  $$BOOST_LIB_PATH/libboost_program_options.a
+    LIBS += $$BOOST_LIB_PATH/libboost_thread.a  $$BOOST_LIB_PATH/libboost_chrono.a
+    LIBS += $$BDB_LIB_PATH/libdb_cxx.a
+    LIBS += $$OPENSSL_LIB_PATH/libssl.a  $$OPENSSL_LIB_PATH/libcrypto.a
+    LIBS += $$UUID_LIB_PATH/libuuid.a
+}
+win32 {
+    LIBS += -L$$BOOST_LIB_PATH -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX -lboost_chrono$$BOOST_LIB_SUFFIX
+    LIBS += -L$$BDB_LIB_PATH -ldb_cxx
+    LIBS += -L$$OPENSSL_LIB_PATH -lssl -lcrypto
+    LIBS += -L$$UUID_LIB_PATH -luuid
+}
 
 
 contains(RELEASE, 1) {

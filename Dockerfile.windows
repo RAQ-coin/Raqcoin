@@ -1,0 +1,81 @@
+# Dockerfile for building Raqcoin-Qt for Windows (x64)
+# Uses manual MXE setup on Ubuntu 20.04 (Focal) which is well supported by MXE.
+
+FROM ubuntu:20.04
+
+# Avoid interactive prompts during apt install
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install basic tools
+RUN apt-get update && apt-get install -y \
+    gnupg \
+    ca-certificates \
+    apt-transport-https \
+    software-properties-common \
+    wget \
+    git \
+    build-essential \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    pkg-config \
+    python3 \
+    python3 \
+    dos2unix \
+    ntp \
+    && rm -rf /var/lib/apt/lists/*
+
+# Add MXE repository
+# Use direct download for the key
+RUN wget -q -O - http://pkg.mxe.cc/repos/apt/client-conf/mxeapt.gpg | apt-key add -
+RUN echo "deb http://pkg.mxe.cc/repos/apt focal main" > /etc/apt/sources.list.d/mxeapt.list
+
+# Install MXE packages for x86_64-w64-mingw32.static
+# Removed qrencode as it was causing 404 errors (likely named libqrencode or not available)
+RUN apt-get update && apt-get install -y \
+    mxe-x86-64-w64-mingw32.static-qtbase \
+    mxe-x86-64-w64-mingw32.static-qttools \
+    mxe-x86-64-w64-mingw32.static-boost \
+    mxe-x86-64-w64-mingw32.static-openssl \
+    mxe-x86-64-w64-mingw32.static-db \
+    mxe-x86-64-w64-mingw32.static-miniupnpc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Add MXE bin to PATH immediately so subsequent RUN commands can find the toolchain
+ENV PATH="/usr/lib/mxe/usr/bin:${PATH}"
+
+# Build binutils 2.37 from source to replace buggy 2.28
+# Configure for x86_64-w64-mingw32.static target
+RUN wget -q -O binutils-2.37.tar.gz https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.gz && \
+    tar -xzvf binutils-2.37.tar.gz && \
+    cd binutils-2.37 && \
+    ./configure --target=x86_64-w64-mingw32.static --prefix=/usr/lib/mxe/usr --disable-nls --disable-werror --enable-static --disable-shared && \
+    make -j4 && \
+    make install && \
+    cd .. && \
+    rm -rf binutils-2.37 binutils-2.37.tar.gz
+
+# Build libqrencode from source (MXE package missing)
+# Explicitly set compilers to ensure cross-compilation works (avoids ELF format)
+RUN wget -q -O libqrencode.tar.gz https://github.com/fukuchi/libqrencode/archive/v4.1.1.tar.gz && \
+    mkdir libqrencode && \
+    tar -xzvf libqrencode.tar.gz -C libqrencode --strip-components=1 && \
+    cd libqrencode && \
+    ./autogen.sh && \
+    ./configure --host=x86_64-w64-mingw32.static --prefix=/usr/lib/mxe/usr/x86_64-w64-mingw32.static --enable-static --disable-shared \
+        CC=x86_64-w64-mingw32.static-gcc \
+        CXX=x86_64-w64-mingw32.static-g++ \
+        AR=x86_64-w64-mingw32.static-ar \
+        RANLIB=x86_64-w64-mingw32.static-ranlib \
+        LDFLAGS="-static" && \
+    make -j4 && \
+    make install && \
+    cd .. && \
+    rm -rf libqrencode libqrencode.tar.gz
+
+# Set up build directory
+WORKDIR /app
+
+# The source will be mounted here
+CMD ["/bin/bash"]
