@@ -61,7 +61,7 @@ OBJ += $(OUT_DIR)rb_core_rainbow-verify.o
 
 
 
-OUTPUT_TARGET=$(BIN_DIR)librainbowpro_unix.a 
+OUTPUT_TARGET=$(BIN_DIR)librainbowpro_unix_arm64.a 
 
 
 

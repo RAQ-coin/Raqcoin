@@ -54,8 +54,7 @@ BOOST_LIB_SUFFIX=
 #MINIUPNPC_INCLUDE_PATH=/home/tao/deps/miniupnp
 #MINIUPNPC_LIB_PATH=/home/tao/deps/miniupnp/miniupnpc
 
-
-!win32 {
+!win32:!macx {
     BOOST_LIB_PATH=/usr/lib/x86_64-linux-gnu
     BDB_LIB_PATH=/usr/lib/x86_64-linux-gnu
     OPENSSL_LIB_PATH=/usr/lib/x86_64-linux-gnu
@@ -78,6 +77,14 @@ win32 {
 #QRENCODE_LIB_PATH=/usr/lib/x86_64-linux-gnu
 #PNG_LIB_PATH=/usr/lib/x86_64-linux-gnu
 
+isEmpty(MINIUPNPC_LIB_PATH) {
+    macx:MINIUPNPC_LIB_PATH = /opt/homebrew/lib
+}
+
+isEmpty(MINIUPNPC_INCLUDE_PATH) {
+    macx:MINIUPNPC_INCLUDE_PATH = /opt/homebrew/include
+}
+
 OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
@@ -86,9 +93,9 @@ UI_DIR = build
 contains(RELEASE, 1) {
     message(Building Release)
     # Mac: compile for maximum compatibility (10.5, 32-bit)
-    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+    macx:QMAKE_CXXFLAGS += -isysroot /Volumes/Expand/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+    macx:QMAKE_CFLAGS += -isysroot /Volumes/Expand/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+    macx:QMAKE_LFLAGS += -isysroot /Volumes/Expand/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 
     !win32:!macx {
         # Linux: static link and extra security (see: https://wiki.debian.org/Hardening)
@@ -131,10 +138,16 @@ contains(USE_ZMQ, 1) {
     	src/zmqpublishnotifier.cpp \
 }
 
+macx:USE_ASSEMBLY = 1
 contains(USE_ASSEMBLY, 1) {
     message(Building with assembly support)
     !win32:LIBS += $$PWD/src/rainbow18/librainbowpro_unix.a
     win32:LIBS += $$PWD/src/rainbow18/librainbowpro_win.a
+    macx {
+        LIBS += $$PWD/src/rainbow18/librainbowpro_unix_arm64.a
+    } else {
+        LIBS += $$PWD/src/rainbow18/librainbowpro_unix.a
+    }
 } else {
     message(Building with Non-assembly support)
     !win32:LIBS += $$PWD/src/rainbow18/librainbowpro_unix_p.a
@@ -197,6 +210,7 @@ contains(RAQCOIN_NEED_QT_PLUGINS, 1) {
     QTPLUGIN += qcncodecs qjpcodecs qtwcodecs qkrcodecs qtaccessiblewidgets
 }
 
+macx:USE_GPU = -
 contains(USE_GPU, -) {
     message(Building without GPU mining)
 } else {
@@ -223,7 +237,9 @@ INCLUDEPATH += src/leveldb/include src/leveldb/helpers
 LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 !win32 {
     # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
-    genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
+    LEVELDB_OPT = $$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE
+    macx:LEVELDB_OPT += -isysroot /Volumes/Expand/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+    genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$LEVELDB_OPT\" libleveldb.a libmemenv.a
 } else {
     # make an educated guess about what the ranlib command is called
     isEmpty(QMAKE_RANLIB) {
@@ -521,23 +537,31 @@ isEmpty(BOOST_THREAD_LIB_SUFFIX) {
 }
 
 isEmpty(BDB_LIB_PATH) {
-    macx:BDB_LIB_PATH = /opt/local/lib/db48
+    macx:BDB_LIB_PATH = /opt/homebrew/opt/berkeley-db@5/lib
 }
 
 isEmpty(BDB_LIB_SUFFIX) {
-    macx:BDB_LIB_SUFFIX = -4.8
+    macx:BDB_LIB_SUFFIX = 
 }
 
 isEmpty(BDB_INCLUDE_PATH) {
-    macx:BDB_INCLUDE_PATH = /opt/local/include/db48
+    macx:BDB_INCLUDE_PATH = /opt/homebrew/opt/berkeley-db@5/include
 }
 
 isEmpty(BOOST_LIB_PATH) {
-    macx:BOOST_LIB_PATH = /opt/local/lib
+    macx:BOOST_LIB_PATH = /opt/homebrew/opt/boost/lib
 }
 
 isEmpty(BOOST_INCLUDE_PATH) {
-    macx:BOOST_INCLUDE_PATH = /opt/local/include
+    macx:BOOST_INCLUDE_PATH = /opt/homebrew/opt/boost/include
+}
+
+isEmpty(OPENSSL_LIB_PATH) {
+    macx:OPENSSL_LIB_PATH = /opt/homebrew/opt/openssl@3/lib
+}
+
+isEmpty(OPENSSL_INCLUDE_PATH) {
+    macx:OPENSSL_INCLUDE_PATH = /opt/homebrew/opt/openssl@3/include
 }
 
 win32:DEFINES += WIN32
@@ -566,7 +590,7 @@ macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm
 macx:HEADERS += src/qt/macnotificationhandler.h
 macx:OBJECTIVE_SOURCES += src/qt/macnotificationhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
-macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
+macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0 OBJC_OLD_DISPATCH_PROTOTYPES=1
 macx:ICON = src/qt/res/icons/raqcoin.icns
 macx:QMAKE_CFLAGS_THREAD += -pthread
 macx:QMAKE_LFLAGS_THREAD += -pthread
@@ -583,21 +607,26 @@ INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$
 win32:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32 -liphlpapi -lrpcrt4
 #LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
 win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
-win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
-macx:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
-
-!win32 {
-    LIBS += $$BOOST_LIB_PATH/libboost_system.a  $$BOOST_LIB_PATH/libboost_filesystem.a  $$BOOST_LIB_PATH/libboost_program_options.a
-    LIBS += $$BOOST_LIB_PATH/libboost_thread.a  $$BOOST_LIB_PATH/libboost_chrono.a
-    LIBS += $$BDB_LIB_PATH/libdb_cxx.a
-    LIBS += $$OPENSSL_LIB_PATH/libssl.a  $$OPENSSL_LIB_PATH/libcrypto.a
-    LIBS += $$UUID_LIB_PATH/libuuid.a
-}
 win32 {
     LIBS += -L$$BOOST_LIB_PATH -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX -lboost_chrono$$BOOST_LIB_SUFFIX
     LIBS += -L$$BDB_LIB_PATH -ldb_cxx
     LIBS += -L$$OPENSSL_LIB_PATH -lssl -lcrypto
     LIBS += -L$$UUID_LIB_PATH -luuid
+}
+
+!win32 {
+    !macx:LIBS += $$BOOST_LIB_PATH/libboost_system.a
+    LIBS += $$BOOST_LIB_PATH/libboost_filesystem.a  $$BOOST_LIB_PATH/libboost_program_options.a
+    LIBS += $$BOOST_LIB_PATH/libboost_thread.a  $$BOOST_LIB_PATH/libboost_chrono.a
+
+    macx {
+        LIBS += -L$$BDB_LIB_PATH -ldb_cxx
+    } else {
+        LIBS += $$BDB_LIB_PATH/libdb_cxx.a
+    }
+
+    LIBS += $$OPENSSL_LIB_PATH/libssl.a  $$OPENSSL_LIB_PATH/libcrypto.a
+    !macx:LIBS += $$UUID_LIB_PATH/libuuid.a
 }
 
 
