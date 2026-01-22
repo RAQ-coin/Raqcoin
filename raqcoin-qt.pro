@@ -141,13 +141,9 @@ contains(USE_ZMQ, 1) {
 macx:USE_ASSEMBLY = 1
 contains(USE_ASSEMBLY, 1) {
     message(Building with assembly support)
-    !win32:LIBS += $$PWD/src/rainbow18/librainbowpro_unix.a
     win32:LIBS += $$PWD/src/rainbow18/librainbowpro_win.a
-    macx {
-        LIBS += $$PWD/src/rainbow18/librainbowpro_unix_arm64.a
-    } else {
-        LIBS += $$PWD/src/rainbow18/librainbowpro_unix.a
-    }
+    macx:LIBS += $$PWD/src/rainbow18/librainbowpro_unix_arm64.a
+    !win32:!macx:LIBS += $$PWD/src/rainbow18/librainbowpro_unix.a
 } else {
     message(Building with Non-assembly support)
     !win32:LIBS += $$PWD/src/rainbow18/librainbowpro_unix_p.a

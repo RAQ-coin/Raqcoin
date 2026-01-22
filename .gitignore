@@ -28,6 +28,7 @@ src/*.o
 src/*.a
 .qmake.stash
 raqcoin-qt-p.app
+Raqcoin-Qt.app
 build-qt
 
 # 编译生成的头文件
@@ -129,6 +130,7 @@ object_script.*.Release
 src/qt/locale/*.qm
 raqcoin-qt-p
 raqcoin-qt-p_plugin_import.cpp
+qrc_raqcoin.cpp
 # ============================================
 # 保留的文件 (不要清理)
 # ============================================
